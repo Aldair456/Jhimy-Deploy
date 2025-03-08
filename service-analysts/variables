@@ -1,0 +1,5 @@
+export ORG=jhimydelgado
+export ROLE=arn:aws:iam::051826715282:role/rol-lambda
+export DATABASE_URL=mongodb+srv://admin:gJ66UV7FD1qs6jG0@valetest.8gw0zdt.mongodb.net
+export MY_DATABASE_NAME=vera-app
+

@@ -1,0 +1,1711 @@
+{
+  "service": {
+    "service": "service-analysts",
+    "serviceObject": {
+      "name": "service-analysts"
+    },
+    "provider": {
+      "name": "aws",
+      "runtime": "python3.9",
+      "memorySize": 1024,
+      "timeout": 29,
+      "role": "arn:aws:iam::051826715282:role/rol-lambda",
+      "environment": {
+        "DATABASE_URL": "mongodb+srv://admin:gJ66UV7FD1qs6jG0@valetest.8gw0zdt.mongodb.net",
+        "MY_DATABASE_NAME": "vera-app"
+      },
+      "stage": "dev",
+      "region": "us-east-1",
+      "versionFunctions": true,
+      "compiledCloudFormationTemplate": {
+        "AWSTemplateFormatVersion": "2010-09-09",
+        "Description": "The AWS CloudFormation template for this Serverless application",
+        "Resources": {
+          "AnalystsDashgetLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/service-analysts-dev-analysts-get"
+            }
+          },
+          "AnalystsUnderscorecreateLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/service-analysts-dev-analysts_create"
+            }
+          },
+          "AnalystsUnderscoreidUnderscoredeleteLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/service-analysts-dev-analysts_id_delete"
+            }
+          },
+          "AnalystsUnderscoreidUnderscoregetLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/service-analysts-dev-analysts_id_get"
+            }
+          },
+          "AnalystsUnderscoreidUnderscorepatchLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/service-analysts-dev-analysts_id_patch"
+            }
+          },
+          "AnalystsUnderscoreidUnderscoreassignDashbusinessLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/service-analysts-dev-analysts_id_assign-business"
+            }
+          },
+          "AnalystsUnderscoreidUnderscoreunassignDashbusinessLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/service-analysts-dev-analysts_id_unassign-business"
+            }
+          },
+          "CommonLibLambdaLayer": {
+            "Type": "AWS::Lambda::LayerVersion",
+            "Properties": {
+              "Content": {
+                "S3Bucket": "serverless-framework-deployments-us-east-1-5a056466-baa9",
+                "S3Key": "serverless/service-analysts/dev/1741219629034-2025-03-06T00:07:09.034Z/layer_common_lib.zip"
+              },
+              "LayerName": "commonLib",
+              "Description": "Dependencias comunes para todas las Lambdas"
+            }
+          },
+          "AnalystsDashgetLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": "serverless-framework-deployments-us-east-1-5a056466-baa9",
+                "S3Key": "serverless/service-analysts/dev/1741219629034-2025-03-06T00:07:09.034Z/analysts-get.zip"
+              },
+              "Handler": "analysts/handler.handler_function",
+              "Runtime": "python3.9",
+              "FunctionName": "service-analysts-dev-analysts-get",
+              "MemorySize": 1024,
+              "Timeout": 29,
+              "Environment": {
+                "Variables": {
+                  "DATABASE_URL": "mongodb+srv://admin:gJ66UV7FD1qs6jG0@valetest.8gw0zdt.mongodb.net",
+                  "MY_DATABASE_NAME": "vera-app"
+                }
+              },
+              "Role": "arn:aws:iam::051826715282:role/rol-lambda",
+              "Layers": [
+                {
+                  "Ref": "CommonLibLambdaLayer"
+                }
+              ]
+            },
+            "DependsOn": [
+              "AnalystsDashgetLogGroup"
+            ]
+          },
+          "AnalystsUnderscorecreateLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": "serverless-framework-deployments-us-east-1-5a056466-baa9",
+                "S3Key": "serverless/service-analysts/dev/1741219629034-2025-03-06T00:07:09.034Z/analysts_create.zip"
+              },
+              "Handler": "analysts_create/handler.handler_function",
+              "Runtime": "python3.9",
+              "FunctionName": "service-analysts-dev-analysts_create",
+              "MemorySize": 1024,
+              "Timeout": 29,
+              "Environment": {
+                "Variables": {
+                  "DATABASE_URL": "mongodb+srv://admin:gJ66UV7FD1qs6jG0@valetest.8gw0zdt.mongodb.net",
+                  "MY_DATABASE_NAME": "vera-app"
+                }
+              },
+              "Role": "arn:aws:iam::051826715282:role/rol-lambda",
+              "Layers": [
+                {
+                  "Ref": "CommonLibLambdaLayer"
+                }
+              ]
+            },
+            "DependsOn": [
+              "AnalystsUnderscorecreateLogGroup"
+            ]
+          },
+          "AnalystsUnderscoreidUnderscoredeleteLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": "serverless-framework-deployments-us-east-1-5a056466-baa9",
+                "S3Key": "serverless/service-analysts/dev/1741219629034-2025-03-06T00:07:09.034Z/analysts_id_delete.zip"
+              },
+              "Handler": "analysts_id_delete/handler.handler_function",
+              "Runtime": "python3.9",
+              "FunctionName": "service-analysts-dev-analysts_id_delete",
+              "MemorySize": 1024,
+              "Timeout": 29,
+              "Environment": {
+                "Variables": {
+                  "DATABASE_URL": "mongodb+srv://admin:gJ66UV7FD1qs6jG0@valetest.8gw0zdt.mongodb.net",
+                  "MY_DATABASE_NAME": "vera-app"
+                }
+              },
+              "Role": "arn:aws:iam::051826715282:role/rol-lambda",
+              "Layers": [
+                {
+                  "Ref": "CommonLibLambdaLayer"
+                }
+              ]
+            },
+            "DependsOn": [
+              "AnalystsUnderscoreidUnderscoredeleteLogGroup"
+            ]
+          },
+          "AnalystsUnderscoreidUnderscoregetLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": "serverless-framework-deployments-us-east-1-5a056466-baa9",
+                "S3Key": "serverless/service-analysts/dev/1741219629034-2025-03-06T00:07:09.034Z/analysts_id_get.zip"
+              },
+              "Handler": "analysts_id_get/handler.handler_function",
+              "Runtime": "python3.9",
+              "FunctionName": "service-analysts-dev-analysts_id_get",
+              "MemorySize": 1024,
+              "Timeout": 29,
+              "Environment": {
+                "Variables": {
+                  "DATABASE_URL": "mongodb+srv://admin:gJ66UV7FD1qs6jG0@valetest.8gw0zdt.mongodb.net",
+                  "MY_DATABASE_NAME": "vera-app"
+                }
+              },
+              "Role": "arn:aws:iam::051826715282:role/rol-lambda",
+              "Layers": [
+                {
+                  "Ref": "CommonLibLambdaLayer"
+                }
+              ]
+            },
+            "DependsOn": [
+              "AnalystsUnderscoreidUnderscoregetLogGroup"
+            ]
+          },
+          "AnalystsUnderscoreidUnderscorepatchLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": "serverless-framework-deployments-us-east-1-5a056466-baa9",
+                "S3Key": "serverless/service-analysts/dev/1741219629034-2025-03-06T00:07:09.034Z/analysts_id_patch.zip"
+              },
+              "Handler": "analysts_id_patch/handler.handler_function",
+              "Runtime": "python3.9",
+              "FunctionName": "service-analysts-dev-analysts_id_patch",
+              "MemorySize": 1024,
+              "Timeout": 29,
+              "Environment": {
+                "Variables": {
+                  "DATABASE_URL": "mongodb+srv://admin:gJ66UV7FD1qs6jG0@valetest.8gw0zdt.mongodb.net",
+                  "MY_DATABASE_NAME": "vera-app"
+                }
+              },
+              "Role": "arn:aws:iam::051826715282:role/rol-lambda",
+              "Layers": [
+                {
+                  "Ref": "CommonLibLambdaLayer"
+                }
+              ]
+            },
+            "DependsOn": [
+              "AnalystsUnderscoreidUnderscorepatchLogGroup"
+            ]
+          },
+          "AnalystsUnderscoreidUnderscoreassignDashbusinessLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": "serverless-framework-deployments-us-east-1-5a056466-baa9",
+                "S3Key": "serverless/service-analysts/dev/1741219629034-2025-03-06T00:07:09.034Z/analysts_id_assign-business.zip"
+              },
+              "Handler": "analysts_id_assign-business/handler.handler_function",
+              "Runtime": "python3.9",
+              "FunctionName": "service-analysts-dev-analysts_id_assign-business",
+              "MemorySize": 1024,
+              "Timeout": 29,
+              "Environment": {
+                "Variables": {
+                  "DATABASE_URL": "mongodb+srv://admin:gJ66UV7FD1qs6jG0@valetest.8gw0zdt.mongodb.net",
+                  "MY_DATABASE_NAME": "vera-app"
+                }
+              },
+              "Role": "arn:aws:iam::051826715282:role/rol-lambda",
+              "Layers": [
+                {
+                  "Ref": "CommonLibLambdaLayer"
+                }
+              ]
+            },
+            "DependsOn": [
+              "AnalystsUnderscoreidUnderscoreassignDashbusinessLogGroup"
+            ]
+          },
+          "AnalystsUnderscoreidUnderscoreunassignDashbusinessLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": "serverless-framework-deployments-us-east-1-5a056466-baa9",
+                "S3Key": "serverless/service-analysts/dev/1741219629034-2025-03-06T00:07:09.034Z/analysts_id_unassign-business.zip"
+              },
+              "Handler": "analysts_id_unassign-business/handler.handler_function",
+              "Runtime": "python3.9",
+              "FunctionName": "service-analysts-dev-analysts_id_unassign-business",
+              "MemorySize": 1024,
+              "Timeout": 29,
+              "Environment": {
+                "Variables": {
+                  "DATABASE_URL": "mongodb+srv://admin:gJ66UV7FD1qs6jG0@valetest.8gw0zdt.mongodb.net",
+                  "MY_DATABASE_NAME": "vera-app"
+                }
+              },
+              "Role": "arn:aws:iam::051826715282:role/rol-lambda",
+              "Layers": [
+                {
+                  "Ref": "CommonLibLambdaLayer"
+                }
+              ]
+            },
+            "DependsOn": [
+              "AnalystsUnderscoreidUnderscoreunassignDashbusinessLogGroup"
+            ]
+          },
+          "AnalystsDashgetLambdaVersionpDWmVCcNLZMsxecYQZeCSHQOAqdLN93dFvQg8ufZ58U": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "AnalystsDashgetLambdaFunction"
+              },
+              "CodeSha256": "D55y4+BcReRprMKHDPevWZpn7DIXNZC1yAXyuubfyxk="
+            }
+          },
+          "AnalystsUnderscorecreateLambdaVersiondsuU4mMQTccjBZahsSJV4AhIvfEEFRxsNbFGp1NY": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "AnalystsUnderscorecreateLambdaFunction"
+              },
+              "CodeSha256": "D55y4+BcReRprMKHDPevWZpn7DIXNZC1yAXyuubfyxk="
+            }
+          },
+          "AnalystsUnderscoreidUnderscoredeleteLambdaVersion1OVZpPeAFltdE3lmwOFVEuYLfdEY4dyv7x4S6ys72I": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "AnalystsUnderscoreidUnderscoredeleteLambdaFunction"
+              },
+              "CodeSha256": "D55y4+BcReRprMKHDPevWZpn7DIXNZC1yAXyuubfyxk="
+            }
+          },
+          "AnalystsUnderscoreidUnderscorepatchLambdaVersionefPSzAEumjOJxZHHQJo3hJYDVfOnOfQaKQEwCPvttMQ": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "AnalystsUnderscoreidUnderscorepatchLambdaFunction"
+              },
+              "CodeSha256": "D55y4+BcReRprMKHDPevWZpn7DIXNZC1yAXyuubfyxk="
+            }
+          },
+          "AnalystsUnderscoreidUnderscoregetLambdaVersionFk9j8UKLey1wYhw8J9IFpvREHLWpfbow7FbZK9uwrYk": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "AnalystsUnderscoreidUnderscoregetLambdaFunction"
+              },
+              "CodeSha256": "D55y4+BcReRprMKHDPevWZpn7DIXNZC1yAXyuubfyxk="
+            }
+          },
+          "AnalystsUnderscoreidUnderscoreassignDashbusinessLambdaVersion1v0OL5z8GXBcdBMfEGXQ5UBKTtunmXFh5eD2vDYAM": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "AnalystsUnderscoreidUnderscoreassignDashbusinessLambdaFunction"
+              },
+              "CodeSha256": "D55y4+BcReRprMKHDPevWZpn7DIXNZC1yAXyuubfyxk="
+            }
+          },
+          "AnalystsUnderscoreidUnderscoreunassignDashbusinessLambdaVersionOEsEXKW6AW0YgzQFUyrqJhVboxBlvpJQ2QTDa8UaSQ": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "AnalystsUnderscoreidUnderscoreunassignDashbusinessLambdaFunction"
+              },
+              "CodeSha256": "D55y4+BcReRprMKHDPevWZpn7DIXNZC1yAXyuubfyxk="
+            }
+          },
+          "ApiGatewayRestApi": {
+            "Type": "AWS::ApiGateway::RestApi",
+            "Properties": {
+              "Name": "dev-service-analysts",
+              "EndpointConfiguration": {
+                "Types": [
+                  "EDGE"
+                ]
+              },
+              "Policy": ""
+            }
+          },
+          "ApiGatewayResourceAnalysts": {
+            "Type": "AWS::ApiGateway::Resource",
+            "Properties": {
+              "ParentId": {
+                "Fn::GetAtt": [
+                  "ApiGatewayRestApi",
+                  "RootResourceId"
+                ]
+              },
+              "PathPart": "analysts",
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayResourceAnalystsCreate": {
+            "Type": "AWS::ApiGateway::Resource",
+            "Properties": {
+              "ParentId": {
+                "Ref": "ApiGatewayResourceAnalysts"
+              },
+              "PathPart": "create",
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayResourceAnalystsIdVar": {
+            "Type": "AWS::ApiGateway::Resource",
+            "Properties": {
+              "ParentId": {
+                "Ref": "ApiGatewayResourceAnalysts"
+              },
+              "PathPart": "{id}",
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayResourceAnalystsIdVarAssignDashbusiness": {
+            "Type": "AWS::ApiGateway::Resource",
+            "Properties": {
+              "ParentId": {
+                "Ref": "ApiGatewayResourceAnalystsIdVar"
+              },
+              "PathPart": "assign-business",
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayResourceAnalystsIdVarUnassignDashbusiness": {
+            "Type": "AWS::ApiGateway::Resource",
+            "Properties": {
+              "ParentId": {
+                "Ref": "ApiGatewayResourceAnalystsIdVar"
+              },
+              "PathPart": "unassign-business",
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayMethodAnalystsOptions": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "AuthorizationType": "NONE",
+              "HttpMethod": "OPTIONS",
+              "MethodResponses": [
+                {
+                  "StatusCode": "200",
+                  "ResponseParameters": {
+                    "method.response.header.Access-Control-Allow-Origin": true,
+                    "method.response.header.Access-Control-Allow-Headers": true,
+                    "method.response.header.Access-Control-Allow-Methods": true
+                  },
+                  "ResponseModels": {}
+                }
+              ],
+              "RequestParameters": {},
+              "Integration": {
+                "Type": "MOCK",
+                "RequestTemplates": {
+                  "application/json": "{statusCode:200}"
+                },
+                "ContentHandling": "CONVERT_TO_TEXT",
+                "IntegrationResponses": [
+                  {
+                    "StatusCode": "200",
+                    "ResponseParameters": {
+                      "method.response.header.Access-Control-Allow-Origin": "'*'",
+                      "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+                      "method.response.header.Access-Control-Allow-Methods": "'GET,OPTIONS'"
+                    },
+                    "ResponseTemplates": {
+                      "application/json": ""
+                    }
+                  }
+                ]
+              },
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceAnalysts"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayMethodAnalystsCreateOptions": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "AuthorizationType": "NONE",
+              "HttpMethod": "OPTIONS",
+              "MethodResponses": [
+                {
+                  "StatusCode": "200",
+                  "ResponseParameters": {
+                    "method.response.header.Access-Control-Allow-Origin": true,
+                    "method.response.header.Access-Control-Allow-Headers": true,
+                    "method.response.header.Access-Control-Allow-Methods": true
+                  },
+                  "ResponseModels": {}
+                }
+              ],
+              "RequestParameters": {},
+              "Integration": {
+                "Type": "MOCK",
+                "RequestTemplates": {
+                  "application/json": "{statusCode:200}"
+                },
+                "ContentHandling": "CONVERT_TO_TEXT",
+                "IntegrationResponses": [
+                  {
+                    "StatusCode": "200",
+                    "ResponseParameters": {
+                      "method.response.header.Access-Control-Allow-Origin": "'*'",
+                      "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Amz-Date,X-Amz-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+                      "method.response.header.Access-Control-Allow-Methods": "'POST,OPTIONS'"
+                    },
+                    "ResponseTemplates": {
+                      "application/json": ""
+                    }
+                  }
+                ]
+              },
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceAnalystsCreate"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayMethodAnalystsIdVarOptions": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "AuthorizationType": "NONE",
+              "HttpMethod": "OPTIONS",
+              "MethodResponses": [
+                {
+                  "StatusCode": "200",
+                  "ResponseParameters": {
+                    "method.response.header.Access-Control-Allow-Origin": true,
+                    "method.response.header.Access-Control-Allow-Headers": true,
+                    "method.response.header.Access-Control-Allow-Methods": true
+                  },
+                  "ResponseModels": {}
+                }
+              ],
+              "RequestParameters": {},
+              "Integration": {
+                "Type": "MOCK",
+                "RequestTemplates": {
+                  "application/json": "{statusCode:200}"
+                },
+                "ContentHandling": "CONVERT_TO_TEXT",
+                "IntegrationResponses": [
+                  {
+                    "StatusCode": "200",
+                    "ResponseParameters": {
+                      "method.response.header.Access-Control-Allow-Origin": "'*'",
+                      "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Amz-Date,X-Amz-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+                      "method.response.header.Access-Control-Allow-Methods": "'PATCH,OPTIONS,GET,DELETE'"
+                    },
+                    "ResponseTemplates": {
+                      "application/json": ""
+                    }
+                  }
+                ]
+              },
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceAnalystsIdVar"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayMethodAnalystsIdVarAssignDashbusinessOptions": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "AuthorizationType": "NONE",
+              "HttpMethod": "OPTIONS",
+              "MethodResponses": [
+                {
+                  "StatusCode": "200",
+                  "ResponseParameters": {
+                    "method.response.header.Access-Control-Allow-Origin": true,
+                    "method.response.header.Access-Control-Allow-Headers": true,
+                    "method.response.header.Access-Control-Allow-Methods": true
+                  },
+                  "ResponseModels": {}
+                }
+              ],
+              "RequestParameters": {},
+              "Integration": {
+                "Type": "MOCK",
+                "RequestTemplates": {
+                  "application/json": "{statusCode:200}"
+                },
+                "ContentHandling": "CONVERT_TO_TEXT",
+                "IntegrationResponses": [
+                  {
+                    "StatusCode": "200",
+                    "ResponseParameters": {
+                      "method.response.header.Access-Control-Allow-Origin": "'*'",
+                      "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Amz-Date,X-Amz-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+                      "method.response.header.Access-Control-Allow-Methods": "'POST,OPTIONS'"
+                    },
+                    "ResponseTemplates": {
+                      "application/json": ""
+                    }
+                  }
+                ]
+              },
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceAnalystsIdVarAssignDashbusiness"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayMethodAnalystsIdVarUnassignDashbusinessOptions": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "AuthorizationType": "NONE",
+              "HttpMethod": "OPTIONS",
+              "MethodResponses": [
+                {
+                  "StatusCode": "200",
+                  "ResponseParameters": {
+                    "method.response.header.Access-Control-Allow-Origin": true,
+                    "method.response.header.Access-Control-Allow-Headers": true,
+                    "method.response.header.Access-Control-Allow-Methods": true
+                  },
+                  "ResponseModels": {}
+                }
+              ],
+              "RequestParameters": {},
+              "Integration": {
+                "Type": "MOCK",
+                "RequestTemplates": {
+                  "application/json": "{statusCode:200}"
+                },
+                "ContentHandling": "CONVERT_TO_TEXT",
+                "IntegrationResponses": [
+                  {
+                    "StatusCode": "200",
+                    "ResponseParameters": {
+                      "method.response.header.Access-Control-Allow-Origin": "'*'",
+                      "method.response.header.Access-Control-Allow-Headers": "'Content-Type,Authorization,X-Amz-Date,X-Amz-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
+                      "method.response.header.Access-Control-Allow-Methods": "'POST,OPTIONS'"
+                    },
+                    "ResponseTemplates": {
+                      "application/json": ""
+                    }
+                  }
+                ]
+              },
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceAnalystsIdVarUnassignDashbusiness"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayMethodAnalystsGet": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "HttpMethod": "GET",
+              "RequestParameters": {},
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceAnalysts"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "ApiKeyRequired": false,
+              "AuthorizationType": "NONE",
+              "Integration": {
+                "IntegrationHttpMethod": "POST",
+                "Type": "AWS_PROXY",
+                "Uri": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":apigateway:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":lambda:path/2015-03-31/functions/",
+                      {
+                        "Fn::GetAtt": [
+                          "AnalystsDashgetLambdaFunction",
+                          "Arn"
+                        ]
+                      },
+                      "/invocations"
+                    ]
+                  ]
+                }
+              },
+              "MethodResponses": []
+            },
+            "DependsOn": [
+              "AnalystsDashgetLambdaPermissionApiGateway"
+            ]
+          },
+          "ApiGatewayMethodAnalystsCreatePost": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "HttpMethod": "POST",
+              "RequestParameters": {},
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceAnalystsCreate"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "ApiKeyRequired": false,
+              "AuthorizationType": "NONE",
+              "Integration": {
+                "IntegrationHttpMethod": "POST",
+                "Type": "AWS_PROXY",
+                "Uri": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":apigateway:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":lambda:path/2015-03-31/functions/",
+                      {
+                        "Fn::GetAtt": [
+                          "AnalystsUnderscorecreateLambdaFunction",
+                          "Arn"
+                        ]
+                      },
+                      "/invocations"
+                    ]
+                  ]
+                }
+              },
+              "MethodResponses": []
+            },
+            "DependsOn": [
+              "AnalystsUnderscorecreateLambdaPermissionApiGateway"
+            ]
+          },
+          "ApiGatewayMethodAnalystsIdVarDelete": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "HttpMethod": "DELETE",
+              "RequestParameters": {},
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceAnalystsIdVar"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "ApiKeyRequired": false,
+              "AuthorizationType": "NONE",
+              "Integration": {
+                "IntegrationHttpMethod": "POST",
+                "Type": "AWS_PROXY",
+                "Uri": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":apigateway:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":lambda:path/2015-03-31/functions/",
+                      {
+                        "Fn::GetAtt": [
+                          "AnalystsUnderscoreidUnderscoredeleteLambdaFunction",
+                          "Arn"
+                        ]
+                      },
+                      "/invocations"
+                    ]
+                  ]
+                }
+              },
+              "MethodResponses": []
+            },
+            "DependsOn": [
+              "AnalystsUnderscoreidUnderscoredeleteLambdaPermissionApiGateway"
+            ]
+          },
+          "ApiGatewayMethodAnalystsIdVarGet": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "HttpMethod": "GET",
+              "RequestParameters": {},
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceAnalystsIdVar"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "ApiKeyRequired": false,
+              "AuthorizationType": "NONE",
+              "Integration": {
+                "IntegrationHttpMethod": "POST",
+                "Type": "AWS_PROXY",
+                "Uri": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":apigateway:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":lambda:path/2015-03-31/functions/",
+                      {
+                        "Fn::GetAtt": [
+                          "AnalystsUnderscoreidUnderscoregetLambdaFunction",
+                          "Arn"
+                        ]
+                      },
+                      "/invocations"
+                    ]
+                  ]
+                }
+              },
+              "MethodResponses": []
+            },
+            "DependsOn": [
+              "AnalystsUnderscoreidUnderscoregetLambdaPermissionApiGateway"
+            ]
+          },
+          "ApiGatewayMethodAnalystsIdVarPatch": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "HttpMethod": "PATCH",
+              "RequestParameters": {},
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceAnalystsIdVar"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "ApiKeyRequired": false,
+              "AuthorizationType": "NONE",
+              "Integration": {
+                "IntegrationHttpMethod": "POST",
+                "Type": "AWS_PROXY",
+                "Uri": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":apigateway:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":lambda:path/2015-03-31/functions/",
+                      {
+                        "Fn::GetAtt": [
+                          "AnalystsUnderscoreidUnderscorepatchLambdaFunction",
+                          "Arn"
+                        ]
+                      },
+                      "/invocations"
+                    ]
+                  ]
+                }
+              },
+              "MethodResponses": []
+            },
+            "DependsOn": [
+              "AnalystsUnderscoreidUnderscorepatchLambdaPermissionApiGateway"
+            ]
+          },
+          "ApiGatewayMethodAnalystsIdVarAssignDashbusinessPost": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "HttpMethod": "POST",
+              "RequestParameters": {},
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceAnalystsIdVarAssignDashbusiness"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "ApiKeyRequired": false,
+              "AuthorizationType": "NONE",
+              "Integration": {
+                "IntegrationHttpMethod": "POST",
+                "Type": "AWS_PROXY",
+                "Uri": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":apigateway:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":lambda:path/2015-03-31/functions/",
+                      {
+                        "Fn::GetAtt": [
+                          "AnalystsUnderscoreidUnderscoreassignDashbusinessLambdaFunction",
+                          "Arn"
+                        ]
+                      },
+                      "/invocations"
+                    ]
+                  ]
+                }
+              },
+              "MethodResponses": []
+            },
+            "DependsOn": [
+              "AnalystsUnderscoreidUnderscoreassignDashbusinessLambdaPermissionApiGateway"
+            ]
+          },
+          "ApiGatewayMethodAnalystsIdVarUnassignDashbusinessPost": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "HttpMethod": "POST",
+              "RequestParameters": {},
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceAnalystsIdVarUnassignDashbusiness"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "ApiKeyRequired": false,
+              "AuthorizationType": "NONE",
+              "Integration": {
+                "IntegrationHttpMethod": "POST",
+                "Type": "AWS_PROXY",
+                "Uri": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":apigateway:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":lambda:path/2015-03-31/functions/",
+                      {
+                        "Fn::GetAtt": [
+                          "AnalystsUnderscoreidUnderscoreunassignDashbusinessLambdaFunction",
+                          "Arn"
+                        ]
+                      },
+                      "/invocations"
+                    ]
+                  ]
+                }
+              },
+              "MethodResponses": []
+            },
+            "DependsOn": [
+              "AnalystsUnderscoreidUnderscoreunassignDashbusinessLambdaPermissionApiGateway"
+            ]
+          },
+          "ApiGatewayDeployment1741219603940": {
+            "Type": "AWS::ApiGateway::Deployment",
+            "Properties": {
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "StageName": "dev"
+            },
+            "DependsOn": [
+              "ApiGatewayMethodAnalystsOptions",
+              "ApiGatewayMethodAnalystsCreateOptions",
+              "ApiGatewayMethodAnalystsIdVarOptions",
+              "ApiGatewayMethodAnalystsIdVarAssignDashbusinessOptions",
+              "ApiGatewayMethodAnalystsIdVarUnassignDashbusinessOptions",
+              "ApiGatewayMethodAnalystsGet",
+              "ApiGatewayMethodAnalystsCreatePost",
+              "ApiGatewayMethodAnalystsIdVarDelete",
+              "ApiGatewayMethodAnalystsIdVarGet",
+              "ApiGatewayMethodAnalystsIdVarPatch",
+              "ApiGatewayMethodAnalystsIdVarAssignDashbusinessPost",
+              "ApiGatewayMethodAnalystsIdVarUnassignDashbusinessPost"
+            ]
+          },
+          "AnalystsDashgetLambdaPermissionApiGateway": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "AnalystsDashgetLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Action": "lambda:InvokeFunction",
+              "Principal": "apigateway.amazonaws.com",
+              "SourceArn": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":execute-api:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":",
+                    {
+                      "Ref": "ApiGatewayRestApi"
+                    },
+                    "/*/*"
+                  ]
+                ]
+              }
+            }
+          },
+          "AnalystsUnderscorecreateLambdaPermissionApiGateway": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "AnalystsUnderscorecreateLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Action": "lambda:InvokeFunction",
+              "Principal": "apigateway.amazonaws.com",
+              "SourceArn": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":execute-api:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":",
+                    {
+                      "Ref": "ApiGatewayRestApi"
+                    },
+                    "/*/*"
+                  ]
+                ]
+              }
+            }
+          },
+          "AnalystsUnderscoreidUnderscoredeleteLambdaPermissionApiGateway": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "AnalystsUnderscoreidUnderscoredeleteLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Action": "lambda:InvokeFunction",
+              "Principal": "apigateway.amazonaws.com",
+              "SourceArn": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":execute-api:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":",
+                    {
+                      "Ref": "ApiGatewayRestApi"
+                    },
+                    "/*/*"
+                  ]
+                ]
+              }
+            }
+          },
+          "AnalystsUnderscoreidUnderscoregetLambdaPermissionApiGateway": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "AnalystsUnderscoreidUnderscoregetLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Action": "lambda:InvokeFunction",
+              "Principal": "apigateway.amazonaws.com",
+              "SourceArn": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":execute-api:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":",
+                    {
+                      "Ref": "ApiGatewayRestApi"
+                    },
+                    "/*/*"
+                  ]
+                ]
+              }
+            }
+          },
+          "AnalystsUnderscoreidUnderscorepatchLambdaPermissionApiGateway": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "AnalystsUnderscoreidUnderscorepatchLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Action": "lambda:InvokeFunction",
+              "Principal": "apigateway.amazonaws.com",
+              "SourceArn": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":execute-api:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":",
+                    {
+                      "Ref": "ApiGatewayRestApi"
+                    },
+                    "/*/*"
+                  ]
+                ]
+              }
+            }
+          },
+          "AnalystsUnderscoreidUnderscoreassignDashbusinessLambdaPermissionApiGateway": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "AnalystsUnderscoreidUnderscoreassignDashbusinessLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Action": "lambda:InvokeFunction",
+              "Principal": "apigateway.amazonaws.com",
+              "SourceArn": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":execute-api:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":",
+                    {
+                      "Ref": "ApiGatewayRestApi"
+                    },
+                    "/*/*"
+                  ]
+                ]
+              }
+            }
+          },
+          "AnalystsUnderscoreidUnderscoreunassignDashbusinessLambdaPermissionApiGateway": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "AnalystsUnderscoreidUnderscoreunassignDashbusinessLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Action": "lambda:InvokeFunction",
+              "Principal": "apigateway.amazonaws.com",
+              "SourceArn": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":execute-api:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":",
+                    {
+                      "Ref": "ApiGatewayRestApi"
+                    },
+                    "/*/*"
+                  ]
+                ]
+              }
+            }
+          }
+        },
+        "Outputs": {
+          "ServerlessDeploymentBucketName": {
+            "Value": "serverless-framework-deployments-us-east-1-5a056466-baa9",
+            "Export": {
+              "Name": "sls-service-analysts-dev-ServerlessDeploymentBucketName"
+            }
+          },
+          "CommonLibLambdaLayerQualifiedArn": {
+            "Description": "Current Lambda layer version",
+            "Value": {
+              "Ref": "CommonLibLambdaLayer"
+            },
+            "Export": {
+              "Name": "sls-service-analysts-dev-CommonLibLambdaLayerQualifiedArn"
+            }
+          },
+          "CommonLibLambdaLayerHash": {
+            "Description": "Current Lambda layer hash",
+            "Value": "d3ed44d86c789e514587b25397511d379d202e5e",
+            "Export": {
+              "Name": "sls-service-analysts-dev-CommonLibLambdaLayerHash"
+            }
+          },
+          "CommonLibLambdaLayerS3Key": {
+            "Description": "Current Lambda layer S3Key",
+            "Value": "serverless/service-analysts/dev/1741219629034-2025-03-06T00:07:09.034Z/layer_common_lib.zip",
+            "Export": {
+              "Name": "sls-service-analysts-dev-CommonLibLambdaLayerS3Key"
+            }
+          },
+          "AnalystsDashgetLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "AnalystsDashgetLambdaVersionpDWmVCcNLZMsxecYQZeCSHQOAqdLN93dFvQg8ufZ58U"
+            },
+            "Export": {
+              "Name": "sls-service-analysts-dev-AnalystsDashgetLambdaFunctionQualifiedArn"
+            }
+          },
+          "AnalystsUnderscorecreateLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "AnalystsUnderscorecreateLambdaVersiondsuU4mMQTccjBZahsSJV4AhIvfEEFRxsNbFGp1NY"
+            },
+            "Export": {
+              "Name": "sls-service-analysts-dev-AnalystsUnderscorecreateLambdaFunctionQualifiedArn"
+            }
+          },
+          "AnalystsUnderscoreidUnderscoredeleteLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "AnalystsUnderscoreidUnderscoredeleteLambdaVersion1OVZpPeAFltdE3lmwOFVEuYLfdEY4dyv7x4S6ys72I"
+            },
+            "Export": {
+              "Name": "sls-service-analysts-dev-AnalystsUnderscoreidUnderscoredeleteLambdaFunctionQualifiedArn"
+            }
+          },
+          "AnalystsUnderscoreidUnderscorepatchLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "AnalystsUnderscoreidUnderscorepatchLambdaVersionefPSzAEumjOJxZHHQJo3hJYDVfOnOfQaKQEwCPvttMQ"
+            },
+            "Export": {
+              "Name": "sls-service-analysts-dev-AnalystsUnderscoreidUnderscorepatchLambdaFunctionQualifiedArn"
+            }
+          },
+          "AnalystsUnderscoreidUnderscoregetLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "AnalystsUnderscoreidUnderscoregetLambdaVersionFk9j8UKLey1wYhw8J9IFpvREHLWpfbow7FbZK9uwrYk"
+            },
+            "Export": {
+              "Name": "sls-service-analysts-dev-AnalystsUnderscoreidUnderscoregetLambdaFunctionQualifiedArn"
+            }
+          },
+          "AnalystsUnderscoreidUnderscoreassignDashbusinessLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "AnalystsUnderscoreidUnderscoreassignDashbusinessLambdaVersion1v0OL5z8GXBcdBMfEGXQ5UBKTtunmXFh5eD2vDYAM"
+            },
+            "Export": {
+              "Name": "sls-service-analysts-dev-AnalystsUnderscoreidUnderscoreassignDashbusinessLambdaFunctionQualifiedArn"
+            }
+          },
+          "AnalystsUnderscoreidUnderscoreunassignDashbusinessLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "AnalystsUnderscoreidUnderscoreunassignDashbusinessLambdaVersionOEsEXKW6AW0YgzQFUyrqJhVboxBlvpJQ2QTDa8UaSQ"
+            },
+            "Export": {
+              "Name": "sls-service-analysts-dev-AnalystsUnderscoreidUnderscoreunassignDashbusinessLambdaFunctionQualifiedArn"
+            }
+          },
+          "ServiceEndpoint": {
+            "Description": "URL of the service endpoint",
+            "Value": {
+              "Fn::Join": [
+                "",
+                [
+                  "https://",
+                  {
+                    "Ref": "ApiGatewayRestApi"
+                  },
+                  ".execute-api.",
+                  {
+                    "Ref": "AWS::Region"
+                  },
+                  ".",
+                  {
+                    "Ref": "AWS::URLSuffix"
+                  },
+                  "/dev"
+                ]
+              ]
+            },
+            "Export": {
+              "Name": "sls-service-analysts-dev-ServiceEndpoint"
+            }
+          }
+        }
+      },
+      "vpc": {}
+    },
+    "pluginsData": {},
+    "functions": {
+      "analysts-get": {
+        "handler": "analysts/handler.handler_function",
+        "layers": {
+          "$ref": "$[\"service\"][\"provider\"][\"compiledCloudFormationTemplate\"][\"Resources\"][\"AnalystsDashgetLambdaFunction\"][\"Properties\"][\"Layers\"]"
+        },
+        "events": [
+          {
+            "http": {
+              "path": "analysts",
+              "method": "get",
+              "cors": {
+                "origin": "*",
+                "methods": [
+                  "GET",
+                  "OPTIONS"
+                ],
+                "headers": [
+                  "Content-Type",
+                  "Authorization",
+                  "X-Amz-Date",
+                  "X-Api-Key",
+                  "X-Amz-Security-Token",
+                  "X-Amz-User-Agent"
+                ],
+                "allowCredentials": false
+              },
+              "integration": "AWS_PROXY"
+            }
+          }
+        ],
+        "name": "service-analysts-dev-analysts-get",
+        "package": {
+          "artifact": ".serverless/analysts-get.zip"
+        },
+        "memory": 1024,
+        "timeout": 29,
+        "runtime": "python3.9",
+        "vpc": {},
+        "versionLogicalId": "AnalystsDashgetLambdaVersionpDWmVCcNLZMsxecYQZeCSHQOAqdLN93dFvQg8ufZ58U"
+      },
+      "analysts_create": {
+        "handler": "analysts_create/handler.handler_function",
+        "layers": {
+          "$ref": "$[\"service\"][\"provider\"][\"compiledCloudFormationTemplate\"][\"Resources\"][\"AnalystsUnderscorecreateLambdaFunction\"][\"Properties\"][\"Layers\"]"
+        },
+        "events": [
+          {
+            "http": {
+              "path": "analysts/create",
+              "method": "post",
+              "cors": {
+                "origin": "*",
+                "methods": [
+                  "POST",
+                  "OPTIONS"
+                ],
+                "headers": [
+                  "Content-Type",
+                  "Authorization",
+                  "X-Amz-Date",
+                  "X-Amz-Api-Key",
+                  "X-Amz-Security-Token",
+                  "X-Amz-User-Agent"
+                ],
+                "allowCredentials": false
+              },
+              "integration": "AWS_PROXY"
+            }
+          }
+        ],
+        "name": "service-analysts-dev-analysts_create",
+        "package": {
+          "artifact": ".serverless/analysts_create.zip"
+        },
+        "memory": 1024,
+        "timeout": 29,
+        "runtime": "python3.9",
+        "vpc": {},
+        "versionLogicalId": "AnalystsUnderscorecreateLambdaVersiondsuU4mMQTccjBZahsSJV4AhIvfEEFRxsNbFGp1NY"
+      },
+      "analysts_id_delete": {
+        "handler": "analysts_id_delete/handler.handler_function",
+        "layers": {
+          "$ref": "$[\"service\"][\"provider\"][\"compiledCloudFormationTemplate\"][\"Resources\"][\"AnalystsUnderscoreidUnderscoredeleteLambdaFunction\"][\"Properties\"][\"Layers\"]"
+        },
+        "events": [
+          {
+            "http": {
+              "path": "analysts/{id}",
+              "method": "delete",
+              "cors": {
+                "origin": "*",
+                "methods": [
+                  "DELETE",
+                  "OPTIONS"
+                ],
+                "headers": [
+                  "Content-Type",
+                  "Authorization",
+                  "X-Amz-Date",
+                  "X-Amz-Api-Key",
+                  "X-Amz-Security-Token",
+                  "X-Amz-User-Agent"
+                ],
+                "allowCredentials": false
+              },
+              "integration": "AWS_PROXY"
+            }
+          }
+        ],
+        "name": "service-analysts-dev-analysts_id_delete",
+        "package": {
+          "artifact": ".serverless/analysts_id_delete.zip"
+        },
+        "memory": 1024,
+        "timeout": 29,
+        "runtime": "python3.9",
+        "vpc": {},
+        "versionLogicalId": "AnalystsUnderscoreidUnderscoredeleteLambdaVersion1OVZpPeAFltdE3lmwOFVEuYLfdEY4dyv7x4S6ys72I"
+      },
+      "analysts_id_get": {
+        "handler": "analysts_id_get/handler.handler_function",
+        "layers": {
+          "$ref": "$[\"service\"][\"provider\"][\"compiledCloudFormationTemplate\"][\"Resources\"][\"AnalystsUnderscoreidUnderscoregetLambdaFunction\"][\"Properties\"][\"Layers\"]"
+        },
+        "events": [
+          {
+            "http": {
+              "path": "analysts/{id}",
+              "method": "get",
+              "cors": {
+                "origin": "*",
+                "methods": [
+                  "GET",
+                  "OPTIONS"
+                ],
+                "headers": [
+                  "Content-Type",
+                  "Authorization",
+                  "X-Amz-Date",
+                  "X-Amz-Api-Key",
+                  "X-Amz-Security-Token",
+                  "X-Amz-User-Agent"
+                ],
+                "allowCredentials": false
+              },
+              "integration": "AWS_PROXY"
+            }
+          }
+        ],
+        "name": "service-analysts-dev-analysts_id_get",
+        "package": {
+          "artifact": ".serverless/analysts_id_get.zip"
+        },
+        "memory": 1024,
+        "timeout": 29,
+        "runtime": "python3.9",
+        "vpc": {},
+        "versionLogicalId": "AnalystsUnderscoreidUnderscoregetLambdaVersionFk9j8UKLey1wYhw8J9IFpvREHLWpfbow7FbZK9uwrYk"
+      },
+      "analysts_id_patch": {
+        "handler": "analysts_id_patch/handler.handler_function",
+        "layers": {
+          "$ref": "$[\"service\"][\"provider\"][\"compiledCloudFormationTemplate\"][\"Resources\"][\"AnalystsUnderscoreidUnderscorepatchLambdaFunction\"][\"Properties\"][\"Layers\"]"
+        },
+        "events": [
+          {
+            "http": {
+              "path": "analysts/{id}",
+              "method": "patch",
+              "cors": {
+                "origin": "*",
+                "methods": [
+                  "PATCH",
+                  "OPTIONS"
+                ],
+                "headers": [
+                  "Content-Type",
+                  "Authorization",
+                  "X-Amz-Date",
+                  "X-Amz-Api-Key",
+                  "X-Amz-Security-Token",
+                  "X-Amz-User-Agent"
+                ],
+                "allowCredentials": false
+              },
+              "integration": "AWS_PROXY"
+            }
+          }
+        ],
+        "name": "service-analysts-dev-analysts_id_patch",
+        "package": {
+          "artifact": ".serverless/analysts_id_patch.zip"
+        },
+        "memory": 1024,
+        "timeout": 29,
+        "runtime": "python3.9",
+        "vpc": {},
+        "versionLogicalId": "AnalystsUnderscoreidUnderscorepatchLambdaVersionefPSzAEumjOJxZHHQJo3hJYDVfOnOfQaKQEwCPvttMQ"
+      },
+      "analysts_id_assign-business": {
+        "handler": "analysts_id_assign-business/handler.handler_function",
+        "layers": {
+          "$ref": "$[\"service\"][\"provider\"][\"compiledCloudFormationTemplate\"][\"Resources\"][\"AnalystsUnderscoreidUnderscoreassignDashbusinessLambdaFunction\"][\"Properties\"][\"Layers\"]"
+        },
+        "events": [
+          {
+            "http": {
+              "path": "analysts/{id}/assign-business",
+              "method": "post",
+              "cors": {
+                "origin": "*",
+                "methods": [
+                  "POST",
+                  "OPTIONS"
+                ],
+                "headers": [
+                  "Content-Type",
+                  "Authorization",
+                  "X-Amz-Date",
+                  "X-Amz-Api-Key",
+                  "X-Amz-Security-Token",
+                  "X-Amz-User-Agent"
+                ],
+                "allowCredentials": false
+              },
+              "integration": "AWS_PROXY"
+            }
+          }
+        ],
+        "name": "service-analysts-dev-analysts_id_assign-business",
+        "package": {
+          "artifact": ".serverless/analysts_id_assign-business.zip"
+        },
+        "memory": 1024,
+        "timeout": 29,
+        "runtime": "python3.9",
+        "vpc": {},
+        "versionLogicalId": "AnalystsUnderscoreidUnderscoreassignDashbusinessLambdaVersion1v0OL5z8GXBcdBMfEGXQ5UBKTtunmXFh5eD2vDYAM"
+      },
+      "analysts_id_unassign-business": {
+        "handler": "analysts_id_unassign-business/handler.handler_function",
+        "layers": {
+          "$ref": "$[\"service\"][\"provider\"][\"compiledCloudFormationTemplate\"][\"Resources\"][\"AnalystsUnderscoreidUnderscoreunassignDashbusinessLambdaFunction\"][\"Properties\"][\"Layers\"]"
+        },
+        "events": [
+          {
+            "http": {
+              "path": "analysts/{id}/unassign-business",
+              "method": "post",
+              "cors": {
+                "origin": "*",
+                "methods": [
+                  "POST",
+                  "OPTIONS"
+                ],
+                "headers": [
+                  "Content-Type",
+                  "Authorization",
+                  "X-Amz-Date",
+                  "X-Amz-Api-Key",
+                  "X-Amz-Security-Token",
+                  "X-Amz-User-Agent"
+                ],
+                "allowCredentials": false
+              },
+              "integration": "AWS_PROXY"
+            }
+          }
+        ],
+        "name": "service-analysts-dev-analysts_id_unassign-business",
+        "package": {
+          "artifact": ".serverless/analysts_id_unassign-business.zip"
+        },
+        "memory": 1024,
+        "timeout": 29,
+        "runtime": "python3.9",
+        "vpc": {},
+        "versionLogicalId": "AnalystsUnderscoreidUnderscoreunassignDashbusinessLambdaVersionOEsEXKW6AW0YgzQFUyrqJhVboxBlvpJQ2QTDa8UaSQ"
+      }
+    },
+    "configValidationMode": "warn",
+    "serviceFilename": "serverless",
+    "initialServerlessConfig": {
+      "service": "service-analysts",
+      "org": "jhimydelgado",
+      "provider": {
+        "$ref": "$[\"service\"][\"provider\"]"
+      },
+      "package": {
+        "individually": true,
+        "exclude": [
+          ".serverless/**",
+          ".venv/**",
+          ".idea/**",
+          "financial-data/**",
+          "build_layer.sh",
+          "user/**",
+          "variables/**",
+          "businesses_businessId_ai-parse/**",
+          "*.zip",
+          "README.md"
+        ],
+        "artifactsS3KeyDirname": "serverless/service-analysts/dev/code-artifacts",
+        "deploymentBucket": "serverless-framework-deployments-us-east-1-5a056466-baa9",
+        "artifactDirectoryName": "serverless/service-analysts/dev/1741219629034-2025-03-06T00:07:09.034Z"
+      },
+      "layers": {
+        "commonLib": {
+          "package": {
+            "artifact": "layer_common_lib.zip"
+          },
+          "description": "Dependencias comunes para todas las Lambdas"
+        }
+      },
+      "functions": {
+        "$ref": "$[\"service\"][\"functions\"]"
+      }
+    },
+    "appId": null,
+    "org": "jhimydelgado",
+    "orgId": null,
+    "layers": {
+      "$ref": "$[\"service\"][\"initialServerlessConfig\"][\"layers\"]"
+    }
+  },
+  "package": {
+    "individually": true,
+    "artifactDirectoryName": "serverless/service-analysts/dev/1741219629034-2025-03-06T00:07:09.034Z",
+    "artifact": ""
+  }
+}

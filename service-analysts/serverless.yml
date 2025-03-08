@@ -1,0 +1,174 @@
+service: service-analysts
+org: ${env:ORG}
+
+provider:
+  name: aws
+  runtime: python3.9
+  memorySize: 1024
+  timeout: 29
+  role: ${env:ROLE}
+  environment:
+    DATABASE_URL: ${env:DATABASE_URL}
+    MY_DATABASE_NAME: ${env:MY_DATABASE_NAME}
+
+package:
+  individually: true
+  exclude:
+    - .serverless/**
+    - .venv/**
+    - .idea/**
+    - financial-data/**
+    - build_layer.sh
+    - user/**
+    - variables/**
+    - businesses_businessId_ai-parse/**
+    - "*.zip" #eres incluir otros ZIP que no sean necesarios
+    - README.md  # Ejemplo, si hay archivos de documentación que no necesitas
+
+# Definición del layer que contiene las dependencias comunes.
+layers:
+  commonLib:
+    package:
+      artifact: layer_common_lib.zip
+    description: "Dependencias comunes para todas las Lambdas"
+
+functions:
+  analysts-get:
+    handler: analysts/handler.handler_function
+    layers:
+      - { Ref: CommonLibLambdaLayer }
+    events:
+      - http:
+          path: analysts
+          method: get
+          cors:
+            origin: '*'
+            methods:
+              - GET
+            headers:
+              - Content-Type
+              - Authorization
+              - X-Amz-Date
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+
+  analysts_create:
+    handler: analysts_create/handler.handler_function
+    layers:
+      - { Ref: CommonLibLambdaLayer }
+    events:
+      - http:
+          path: analysts/create
+          method: post
+          cors:
+            origin: '*'
+            methods:
+              - POST
+            headers:
+              - Content-Type
+              - Authorization
+              - X-Amz-Date
+              - X-Amz-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+
+  analysts_id_delete:
+    handler: analysts_id_delete/handler.handler_function
+    layers:
+      - { Ref: CommonLibLambdaLayer }
+    events:
+      - http:
+          path: analysts/{id}
+          method: delete
+          cors:
+            origin: '*'
+            methods:
+              - DELETE
+            headers:
+              - Content-Type
+              - Authorization
+              - X-Amz-Date
+              - X-Amz-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+
+  analysts_id_get:
+    handler: analysts_id_get/handler.handler_function
+    layers:
+      - { Ref: CommonLibLambdaLayer }
+    events:
+      - http:
+          path: analysts/{id}
+          method: get
+          cors:
+            origin: '*'
+            methods:
+              - GET
+            headers:
+              - Content-Type
+              - Authorization
+              - X-Amz-Date
+              - X-Amz-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+
+  analysts_id_patch:
+    handler: analysts_id_patch/handler.handler_function
+    layers:
+      - { Ref: CommonLibLambdaLayer }
+    events:
+      - http:
+          path: analysts/{id}
+          method: patch
+          cors:
+            origin: '*'
+            methods:
+              - PATCH
+            headers:
+              - Content-Type
+              - Authorization
+              - X-Amz-Date
+              - X-Amz-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+
+  analysts_id_assign-business:
+    handler: analysts_id_assign-business/handler.handler_function
+    layers:
+      - { Ref: CommonLibLambdaLayer }
+    events:
+      - http:
+          path: analysts/{id}/assign-business
+          method: post
+          cors:
+            origin: '*'
+            methods:
+              - POST
+            headers:
+              - Content-Type
+              - Authorization
+              - X-Amz-Date
+              - X-Amz-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+
+  analysts_id_unassign-business:
+    handler: analysts_id_unassign-business/handler.handler_function
+    layers:
+      - { Ref: CommonLibLambdaLayer }
+    events:
+      - http:
+          path: analysts/{id}/unassign-business
+          method: post
+          cors:
+            origin: '*'
+            methods:
+              - POST
+            headers:
+              - Content-Type
+              - Authorization
+              - X-Amz-Date
+              - X-Amz-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
