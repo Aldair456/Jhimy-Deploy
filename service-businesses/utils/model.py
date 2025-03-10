@@ -109,12 +109,30 @@ class DetailItem(EmbeddedDocument):
     value = FloatField(required=True)
     meta = {'collection': 'DetailItem'}
 # 📌 Modelo para FinancialDatapoint
+
+
+# model Year {
+#   id                  String               @id @default(auto()) @map("_id") @db.ObjectId
+#   year                Int
+#   financialDatapoints FinancialDatapoint[]
+#   createdAt           DateTime             @default(now())
+#   updatedAt           DateTime             @updatedAt
+# }
+
+class Year(EmbeddedDocument):
+    year = IntField()
+    financialDatapoints = ListField(ReferenceField("FinancialDatapoint"))
+    createdAt = IntField()
+    updatedAt = IntField()
+    meta = {'collection': 'Year'}
+    }
 class FinancialDatapoint(Document):
+    businessId = ReferenceField("FinancialStatement", required=True)
     value = FloatField(required=True)
     details = ListField(EmbeddedDocumentField(DetailItem))
-    account = ReferenceField("Account")
+    accountId = ReferenceField("Account")
     financialStatementId = ReferenceField("FinancialStatement")
-    year = IntField(required=True)
+    yearId= ReferenceField("Year",required=True)
     createdAt = IntField()
     updatedAt = IntField()
     meta = {'collection': 'FinancialDatapoint'}
