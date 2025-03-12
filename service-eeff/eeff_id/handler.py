@@ -48,6 +48,6 @@ if __name__ == "__main__":
     # Simulación de prueba local
     test_event = {
         "headers": {"Authorization": "Bearer test_token"},
-        "pathParameters": {"id": "67cf648bf7c8d95e03c2ac72"}
+        "pathParameters": {"id": "67cf64e6d7242f78b1b5c316"}
     }
     print(lambda_handler(test_event, None))

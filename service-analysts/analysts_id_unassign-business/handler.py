@@ -58,14 +58,10 @@ def handler_function(event, context):
         if not business:
             return Response(status_code=404, body={"error": "Negocio no encontrado"}).to_dict()
 
-        # Eliminar el businessId de assignedBusinessIds del analista
-        if business in analyst.assignedBusinessIds:
-            analyst.assignedBusinessIds.remove(business)
-            analyst.save()
 
         # Eliminar el analystId de analistaIds del negocio
-        if analyst in business.analistaIds:
-            business.analistaIds.remove(analyst)
+        if analyst.id in business.analistaIds:
+            business.analistaIds.remove(analyst.id)
             business.save()
 
         # Serializar y devolver el analista actualizado
@@ -82,7 +78,7 @@ def handler_function(event, context):
 # Bloque opcional para pruebas locales
 if __name__ == "__main__":
     test_event = {
-        "pathParameters": {"id": "67cbed1bd74313ab7499648c"},
+        "pathParameters": {"id": "67770eace3a1abad30f4cd03"},
         "body": json.dumps({"businessId": "6786e21b6106b8b2141497fd"})
     }
     response = handler_function(test_event, {})

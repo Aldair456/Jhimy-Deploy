@@ -63,10 +63,6 @@ def handler_function(event, context):
                 if not business:
                     return Response(status_code=404, body={"error": "Negocio no encontrado"}).to_dict()
 
-                # Agregar business.id a assignedBusinessIds del analista si aún no está asignado
-                if business.id not in analyst.assignedBusinessIds:
-                    analyst.assignedBusinessIds.append(business.id)
-                    analyst.save(session=session)
 
                 # Agregar analyst_id a analistaIds del negocio si aún no está asignado
                 if analyst_id not in business.analistaIds:

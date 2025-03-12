@@ -9,12 +9,63 @@ os.environ['MY_DATABASE_NAME'] = "vera-app"
 
 # Conectar a la base de datos usando la URL de conexión completa
 connect(db=os.environ['MY_DATABASE_NAME'], host=os.environ['DATABASE_URL'])
+
+############   Contact   ############
+# type Contact {
+#   nombre      String
+#   cargo      String
+#   telefono   String
+#   email      String
+# }
+
 class Contact(EmbeddedDocument):
-    nombre = StringField(required=True)
-    cargo = StringField(required=True)
+    nombre = StringField()
+    cargo = StringField()
     telefono = StringField()
     email = StringField()
-    meta = {'collection': 'Contact'}
+
+
+############   User   ############
+# model User {
+#   id                  String     @id @default(auto()) @map("_id") @db.ObjectId
+#   username            String     @unique
+#   password            String
+#   role                UserRole
+#   evaluatorId         String     @db.ObjectId
+#   evaluator           Evaluator  @relation(fields: [evaluatorId], references: [id])
+#   assignedBusinessIds String[]   @db.ObjectId @default([])
+#   assignedBusinesses  Business[] @relation("AnalistaBusiness", fields: [assignedBusinessIds], references: [id])
+#   name                String?
+#   email               String?    @unique
+#   createdAt           DateTime   @default(now())
+#   updatedAt           DateTime   @updatedAt
+# }
+class User(Document):
+    username = StringField(unique=True, required=True)
+    password = StringField(required=True)
+    role = StringField(choices=["ADMIN", "ANALYST"], required=True)
+    evaluatorId = ObjectIdField(required=True)
+    evaluator = ReferenceField("Evaluator")
+    #assignedBusinessIds = ListField(ObjectIdField())
+    #assignedBusiness = ListField(ReferenceField("Business"))
+    name = StringField()
+    email = StringField()
+    emailVerified = BooleanField(default=False)
+    createdAt = DateTimeField(default=datetime.datetime.utcnow)
+    updatedAt = DateTimeField(default=datetime.datetime.utcnow)
+    meta = {'collection': 'User'}
+
+
+############   Evaluator   ############
+# model Evaluator {
+#   id         String     @id @default(auto()) @map("_id") @db.ObjectId
+#   name       String
+#   users      User[]
+#   businesses Business[]
+#   deals      Deal[]
+#   createdAt  DateTime   @default(now())
+#   updatedAt  DateTime   @updatedAt
+# }
 
 class Evaluator(Document):
     name = StringField(required=True)
@@ -27,50 +78,40 @@ class Evaluator(Document):
 
     meta = {'collection': 'Evaluator'}
 
-class User(Document):
-    username = StringField(unique=True, required=True)
-    password = StringField(required=True)
-    role = StringField(choices=["ADMIN", "ANALYST"], required=True)
-    evaluatorId = ReferenceField("Evaluator", required=True, reverse_delete_rule=2)  # Ref a Evaluator
-    assignedBusinessIds = ListField(ReferenceField("Business"))  # Relación con Business (en el orm lo maneja como objtos)
-    name = StringField()
-    image =StringField()
-    email = StringField()#se quito el unico
-    emailVerified = BooleanField(default=False)
-    createdAt = DateTimeField(default=datetime.datetime.utcnow)
-    updatedAt = DateTimeField(default=datetime.datetime.utcnow)
 
-    meta = {'collection': 'User'}
-
-
-
-
-class User(Document):
-    username = StringField(unique=True, required=True)
-    password = StringField(required=True)
-    role = StringField(choices=["ADMIN", "ANALYST"], required=True)
-    evaluatorId = ReferenceField("Evaluator", required=True, reverse_delete_rule=2)
-    assignedBusinessIds = ListField(ReferenceField("Business"))
-    name = StringField()
-    image = StringField()
-    email = StringField()  # Se quitó la restricción de único
-    emailVerified = BooleanField(default=False)
-    createdAt = DateTimeField(default=datetime.datetime.utcnow)
-    updatedAt = DateTimeField(default=datetime.datetime.utcnow)
-    meta = {'collection': 'User'}
-
-
-# 📌 Modelo para Business
+############   Business   ############
+# // scaleType del business es puramente visual
+# // el scaleType que manda para los datapoints es el scale type del FS
+# model Business {
+#   id                  String               @id @default(auto()) @map("_id") @db.ObjectId
+#   name                String
+#   ruc                 String               @unique
+#   razonSocial         String
+#   contactos           Contact[]
+#   ejecutivoCuenta     String
+#   analistaIds         String[]             @db.ObjectId
+#   analistas           User[]               @relation("AnalistaBusiness", fields: [analistaIds], references: [id])
+#   deals               Deal[]
+#   evaluatorId         String               @db.ObjectId
+#   evaluator           Evaluator            @relation(fields: [evaluatorId], references: [id])
+#   financialStatements FinancialStatement[]
+#   createdAt           DateTime             @default(now())
+#   updatedAt           DateTime             @updatedAt
+#
+#   currency    String               @default("PEN") // 'PEN', 'USD', 'EUR'
+#   scaleType   String               @default("THOUSANDS") // 'millones', 'miles', 'millones'
+# }
 class Business(Document):
     name = StringField(required=True)
-    ruc = StringField(required=True)
+    ruc = StringField(required=True, unique=True)
     razonSocial = StringField(required=True)
     contactos = ListField(EmbeddedDocumentField(Contact))
     ejecutivoCuenta = StringField()
-    analistaIds = ListField(ReferenceField("User"))
+    analistaIds = ListField(ObjectIdField())
+    analistas = ListField(ReferenceField("User"))
     deals = ListField(ReferenceField("Deal"))
-    evaluatorId = ReferenceField("Evaluator")
-    financialStatementId = ReferenceField("FinancialStatement", required=False)
+    evaluatorId = ObjectIdField()
+    evaluator = ReferenceField("Evaluator")
     financialStatements = ListField(ReferenceField("FinancialStatement"))
     currency = StringField(default="PEN")
     scaleType = StringField(default="THOUSANDS")
@@ -79,47 +120,86 @@ class Business(Document):
     meta = {'collection': 'Business'}
 
 
+############   Deal   ############
+# model Deal {
+#   id         String   @id @default(auto()) @map("_id") @db.ObjectId
+#   title      String
+#   status     String
+#   businessId String   @db.ObjectId
+#   business   Business @relation(fields: [businessId], references: [id])
+#    value     Float
+#    evaluatorId String @db.ObjectId
+#    evaluator Evaluator @relation(fields: [evaluatorId], references: [id])
+#   // period    String?
+#   // periodId  String?  @db.ObjectId
+#   createdAt  DateTime @default(now())
+#   updatedAt  DateTime @updatedAt
+# }
 
-# 📌 Modelo para Deal
 class Deal(Document):
     title = StringField(required=True)
     status = StringField(required=True)
-    business = ReferenceField(Business)
+    businessId = ObjectIdField()
+    business = ReferenceField("Business")
     value = FloatField()
-    evaluator = ReferenceField(Evaluator)
-    createdAt = IntField()
-    updatedAt = IntField()
+    evaluatorId = ObjectIdField()
+    evaluator = ReferenceField("Evaluator")
+    createdAt = DateTimeField(default=datetime.datetime.utcnow)
+    updatedAt = DateTimeField(default=datetime.datetime.utcnow)
     meta = {'collection': 'Deal'}
 
-# 📌 Modelo para DetailItem
+
+############   DetailItem   ############
+# type DetailItem {
+#   name  String
+#   value Float
+# }
 class DetailItem(EmbeddedDocument):
-    name = StringField(required=True)
-    value = FloatField(required=True)
-    meta = {'collection': 'DetailItem'}
+    name = StringField()
+    value = FloatField()
 
 
+
+############   FinancialDatapoint   ############
+
+# model FinancialDatapoint {
+#   id                  String       @id @default(auto()) @map("_id") @db.ObjectId
+#   value               Float
+#   details             DetailItem[]
+#   accountId           String       @db.ObjectId
+#   account             Account      @relation(fields: [accountId], references: [id])
+#   financialStatementId String      @db.ObjectId
+#   financialStatement  FinancialStatement @relation(fields: [financialStatementId], references: [id])
+#   year                Int
+#   createdAt           DateTime     @default(now())
+#   updatedAt           DateTime     @updatedAt
+# }
 
 class FinancialDatapoint(Document):
-    businessId = ObjectIdField(required=True)
     value = FloatField(required=True)
     details = ListField(EmbeddedDocumentField(DetailItem))
     accountId = ObjectIdField(required=True)
-    account = ReferenceField('Account', required=True)
+    account = ReferenceField('Account')
     financialStatementId = ObjectIdField(required=True)
     financialStatement = ReferenceField('FinancialStatement')
-    yearId = StringField(required=True)
-    year = ReferenceField('Year', required=True)
+    year = IntField()
     createdAt = DateTimeField(default=datetime.datetime.utcnow)
     updatedAt = DateTimeField(default=datetime.datetime.utcnow)
     meta = {'collection': 'FinancialDatapoint'}
 
-class Year(Document):
-    year = IntField(required=True, unique=True)
-    financialDatapoints = ListField(ReferenceField('FinancialDatapoint'))
-    createdAt = DateTimeField(default=datetime.datetime.utcnow)
-    updatedAt = DateTimeField(default=datetime.datetime.utcnow)
-    meta = {'collection': 'Year'}
 
+############   Account   ############
+
+# model Account {
+#   id                  String               @id @default(auto()) @map("_id") @db.ObjectId
+#   name                String               @unique
+#   displayName         String
+#   statement           String
+#   tags                String[]
+#   valueType           String
+#   priority            Int
+#   financialDatapoints FinancialDatapoint[]
+# }
 class Account(Document):
     name = StringField(required=True, unique=True)
     displayName = StringField()
@@ -131,18 +211,36 @@ class Account(Document):
 
     meta = {'collection': 'Account'}
 
-class YearDataPoint(EmbeddedDocument):
-    year = IntField(required=True)
-    meta = {'collection': 'YearDataPoint'}
 
+
+
+
+############   FinancialStatement   ############
+
+# model FinancialStatement {
+#   id          String               @id @default(auto()) @map("_id") @db.ObjectId
+#   businessId  String               @db.ObjectId @unique
+#   business    Business             @relation(fields: [businessId], references: [id])
+#   type        String               // 'official', 'draft'
+#   years       Int[]
+#   datapoints  FinancialDatapoint[]
+#   createdAt   DateTime             @default(now())
+#   updatedAt   DateTime             @updatedAt
+#
+#   currency    String               @default("PEN") // 'PEN', 'USD', 'EUR'
+#   scaleType   String               @default("THOUSANDS") // 'units', 'millones', 'miles', 'millones'
+#
+#   status      String              // 'official':['official'], 'draft':['pending','confirmed','cancelled']
+# }
 class FinancialStatement(Document):
     businessId = ObjectIdField(required=True)
-    type = StringField()  # 'situacional', 'auditados', 'parciales'
+    business = ReferenceField("Business")
+    type = StringField(choices=["OFFICIAL", "DRAFT"])  # 'situacional', 'auditados', 'parciales'
+    years = ListField(IntField())
+    datapoints = ListField(ReferenceField('FinancialDatapoint'))
     currency = StringField(default="PEN")  # 'PEN', 'USD', 'EUR'
     scaleType = StringField(default="THOUSANDS")  # 'millones', 'miles', 'millones'
-    years = ListField(EmbeddedDocumentField(YearDataPoint))
-    datapoints = ListField(ReferenceField('FinancialDatapoint'))
+    status = StringField(choices=["PENDING", "CONFIRMED", "CANCELLED", "OFFICIAL", "COMPLETE"])
     createdAt = DateTimeField(default=datetime.datetime.utcnow)
     updatedAt = DateTimeField(default=datetime.datetime.utcnow)
     meta = {'collection': 'FinancialStatement'}
-

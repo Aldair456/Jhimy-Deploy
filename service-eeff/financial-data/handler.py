@@ -107,7 +107,7 @@ def lambda_handler(event, context):
 if __name__ == "__main__":
     # Ejemplo de JSON recibido
     event = {
-        "statement_id": "67cf64e6d7242f78b1b5c316",
+        "statement_id": "67cf667518e748a4cbb91678",
         "output": [
             {
                 "name": "PERIOD_RESULTS",

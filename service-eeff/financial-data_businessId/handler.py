@@ -36,6 +36,7 @@ def lambda_handler(event, context):
         return Response(status_code=500,
                         body={"error": "Error al obtener datos financieros", "details": str(e)}).to_dict()
 
+#  Es el ID del negocio en MongoDB para obtener sus datos financieros.
 
 if __name__ == "__main__":
     # Simulación de prueba local

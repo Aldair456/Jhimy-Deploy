@@ -4,7 +4,7 @@ from mongoengine import connect
 from bson import ObjectId
 import sys
 sys.path.append(r"C:\Users\semin\OneDrive\Escritorio\MARCELO\jhimy\migracion\service-financial-statements")
-from utils.model import FinancialStatement, Year, FinancialDatapoint, Account
+from utils.model import FinancialStatement,  FinancialDatapoint, Account
 from utils.response import Response
 from utils.serializable import serialize_document
 """"

@@ -54,6 +54,9 @@ def lambda_handler(event, context):
 if __name__ == "__main__":
     test_event = {
         "headers": {"Authorization": "Bearer test_token"},
-        "pathParameters": {"id": "67cf66d10fc38d9c1dc0915b"}
+        "pathParameters": {"id": "67cf667518e748a4cbb91678"} # identificador de un estado financiero en
     }
     print(lambda_handler(test_event, None))
+
+
+#Este código es un Lambda function handler en Python que recupera los datos de un estado financiero desde una base de datos MongoDB y los organiza por año.
