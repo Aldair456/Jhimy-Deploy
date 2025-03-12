@@ -1,9 +1,16 @@
 import json
 from mongoengine import connect
+import sys
+sys.path.append(r"C:\Users\semin\OneDrive\Escritorio\MARCELO\jhimy\migracion\service-eeff")
 from utils.model import Account  # Modelo de la colección "Account"
+
 from utils.response import Response  # Clase Response para formatear respuestas
 from utils.serializable import serialize_document
+""""
 
+Este código es una función Lambda que se conecta a una base de datos MongoDB, obtiene todas las cuentas de la colección Account, las serializa y devuelve los resultados como una respuesta formateada en JSON. Aquí te explico qué hace cada parte del código:
+
+"""
 
 def lambda_handler(event, context):
     try:

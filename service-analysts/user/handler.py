@@ -1,3 +1,13 @@
+
+#
+import os
+import sys
+
+# Obtener la ruta del directorio padre
+sys.path.append(r"C:\Users\semin\OneDrive\Escritorio\MARCELO\jhimy\migracion\service-analysts")
+
+
+# texto 
 import os
 import json
 import jwt  # pip install PyJWT
@@ -120,3 +130,4 @@ if __name__ == "__main__":
     }
     response = lambda_handler(test_event, {})
     print("Response from GET lambda:", response)
+#  chcking observación se permite crear mismos usuarios con el mismo correo 

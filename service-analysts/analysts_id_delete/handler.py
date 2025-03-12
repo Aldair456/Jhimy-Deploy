@@ -1,3 +1,9 @@
+#
+import os
+import sys
+sys.path.append(r"C:\Users\semin\OneDrive\Escritorio\MARCELO\jhimy\migracion\service-analysts")
+
+#---------
 import os
 from mongoengine import connect, disconnect
 from utils.response import Response
@@ -71,7 +77,8 @@ def handler_function(event, context):
 if __name__ == "__main__":
     event = {
         "pathParameters": {
-            "id": "67802e0a80547b162bf07dd0",
+            "id": "67cf572a9d017fbc0081f3ef",
         }
     }
     print(handler_function(event=event, context={}))
+# checking 

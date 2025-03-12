@@ -2,6 +2,11 @@ import json
 import os
 from mongoengine import connect, Q
 from bson import ObjectId
+#Elimina el estado financiero (FinancialStatement) de la base de datos.
+
+import sys
+sys.path.append(r"C:\Users\semin\OneDrive\Escritorio\MARCELO\jhimy\migracion\service-eeff")
+
 from utils.model import FinancialStatement, FinancialDatapoint  # Asegúrate de importar los modelos correctos
 from utils.response import Response  # Importa la clase Response
 
@@ -43,6 +48,6 @@ if __name__ == "__main__":
     # Simulación de prueba local
     test_event = {
         "headers": {"Authorization": "Bearer test_token"},
-        "pathParameters": {"id": "67c1ebe6f2c06183ea1f7743"}
+        "pathParameters": {"id": "67cf648bf7c8d95e03c2ac72"}
     }
     print(lambda_handler(test_event, None))

@@ -1,8 +1,8 @@
 import json
 import os
 from bson import ObjectId
-from utils.model import FinancialStatement  # Asegúrate de importar el modelo correcto
-from utils.response import Response  # Importa la clase Response
+from utils.model import FinancialStatement  
+from utils.response import Response  
 from utils.serializable import serialize_document
 
 
@@ -28,24 +28,29 @@ def lambda_handler(event, context):
         # Agrupar datos por año
         data_by_year = {}
         for statement in statements:
-            year = str(statement.year)
-            if year not in data_by_year:
-                data_by_year[year] = {"SALES": 0, "COGS": 0, "OPEX": 0, "DEPRECIATION": 0, "AMORTIZATION": 0}
+            if not statement.years:
+                continue  # Si no hay años, salta este estado financiero
 
-            for account in statement.accounts:
-                account_name = account["name"].upper()
-                account_value = account["value"]
+            for year in statement.years:
+                year_str = str(year)
+                if year_str not in data_by_year:
+                    data_by_year[year_str] = {"SALES": 0, "COGS": 0, "OPEX": 0, "DEPRECIATION": 0, "AMORTIZATION": 0}
 
-                if "SALES" in account_name:
-                    data_by_year[year]["SALES"] += account_value
-                elif "COGS" in account_name:
-                    data_by_year[year]["COGS"] += account_value
-                elif "OM" in account_name:
-                    data_by_year[year]["OPEX"] += account_value
-                elif "DEPRECIATION" in account_name:
-                    data_by_year[year]["DEPRECIATION"] += account_value
-                elif "AMORTIZATION" in account_name:
-                    data_by_year[year]["AMORTIZATION"] += account_value
+                # Suponiendo que statement.datapoints contiene la información financiera
+                for datapoint in statement.datapoints:
+                    account_name = datapoint.name.upper()
+                    account_value = datapoint.value
+
+                    if "SALES" in account_name:
+                        data_by_year[year_str]["SALES"] += account_value
+                    elif "COGS" in account_name:
+                        data_by_year[year_str]["COGS"] += account_value
+                    elif "OM" in account_name:
+                        data_by_year[year_str]["OPEX"] += account_value
+                    elif "DEPRECIATION" in account_name:
+                        data_by_year[year_str]["DEPRECIATION"] += account_value
+                    elif "AMORTIZATION" in account_name:
+                        data_by_year[year_str]["AMORTIZATION"] += account_value
 
         # Calcular ratios financieros
         ratios_by_year = {}
@@ -59,7 +64,7 @@ def lambda_handler(event, context):
             EBITDA = ventas - costo_ventas - gastos_operativos + depreciacion + amortizacion
             utilidad_bruta = ventas - costo_ventas
             utilidad_operativa = utilidad_bruta - gastos_operativos
-            utilidad_neta = utilidad_operativa  # Puedes agregar impuestos si lo deseas
+            utilidad_neta = utilidad_operativa  
 
             margen_bruto = (utilidad_bruta / ventas * 100) if ventas else None
             margen_operativo = (utilidad_operativa / ventas * 100) if ventas else None
@@ -85,6 +90,6 @@ def lambda_handler(event, context):
 if __name__ == "__main__":
     test_event = {
         "headers": {"Authorization": "Bearer test_token"},
-        "pathParameters": {"id": "67c1ebe6f2c06183ea1f7743"}
+        "pathParameters": {"id": "67802e0a80547b162bf07dd0"}# id del negocio para darme los estados
     }
     print(lambda_handler(test_event, None))

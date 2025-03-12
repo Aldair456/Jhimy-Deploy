@@ -1,3 +1,12 @@
+
+#
+import os
+import sys
+
+sys.path.append(r"C:\Users\semin\OneDrive\Escritorio\MARCELO\jhimy\migracion\service-analysts")
+
+#
+
 import os
 import json
 import datetime
@@ -104,10 +113,11 @@ if __name__ == "__main__":
     test_event = {
         "httpMethod": "POST",
         "body": json.dumps({
-            "username": "rbonifaz",
-            "password": "Password"
+            "username": "juanp1",
+            "password": "analystPassword"
         })
     }
     response = lambda_handler(test_event, {})
     print("Respuesta de la función Lambda:")
     print(response)
+# checking

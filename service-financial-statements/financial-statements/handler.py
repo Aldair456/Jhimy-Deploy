@@ -1,6 +1,8 @@
 import json
 import os
 from bson import ObjectId
+import sys
+sys.path.append(r"C:\Users\semin\OneDrive\Escritorio\MARCELO\jhimy\migracion\service-financial-statements")
 from utils.model import FinancialStatement  # Asegúrate de importar el modelo correcto
 from utils.response import Response  # Importa la clase Response
 from utils.serializable import serialize_document
@@ -8,7 +10,7 @@ from utils.serializable import serialize_document
 def lambda_handler(event, context):
     try:
         # Conectar a la base de datos
-
+        ##GET para obtener un estado financiero específico desde una base de datos MongoDB.
         # Verificar autorización con el Bearer Token
         headers = event.get("headers", {})
         auth_header = headers.get("Authorization", "")
@@ -33,10 +35,10 @@ def lambda_handler(event, context):
 
 
 if __name__ == "__main__":
-    # Simulación de prueba local
+    # Simulación de prueba local  , nota esta información esta que saca del test
     test_event = {
         "headers": {"Authorization": "Bearer test_token"},
-        "pathParameters": {"id": "67c1ebe6f2c06183ea1f7743"},
+        "pathParameters": {"id": "67cf66d10fc38d9c1dc0915b"},
         "httpMethod": "GET"
     }
     print(lambda_handler(test_event, None))

@@ -1,5 +1,10 @@
 import os
 import json
+import sys
+
+sys.path.append(r"C:\Users\semin\OneDrive\Escritorio\MARCELO\jhimy\migracion\service-businesses")
+
+import utils
 from utils.response import Response
 from utils.model import Business
 from utils.serializable import serialize_document
@@ -20,6 +25,7 @@ def handler(event, context):
             ).to_dict()
 
         # Obtener los negocios usando el ORM
+        #   si deseas   mas datos quitar el .only , <-
         businesses = Business.objects(evaluatorId=evaluator_id).only("id", "ruc", "razonSocial", "createdAt")
 
         # Convertir a JSON

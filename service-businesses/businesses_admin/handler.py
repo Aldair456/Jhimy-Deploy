@@ -2,12 +2,14 @@ import json
 import os
 import jwt  # PyJWT para decodificar el token JWT
 from mongoengine import connect
+import sys
+sys.path.append(r"C:\Users\semin\OneDrive\Escritorio\MARCELO\jhimy\migracion\service-businesses")
+
 from utils.model import Business  # Asegúrate de importar el modelo correcto
 from utils.response import Response  # Importa la clase Response
 
 # Clave secreta para decodificar el token (debe ser la misma usada para generarlo)
 SECRET_KEY = os.environ.get("JWT_SECRET", "supersecret")
-
 
 def lambda_handler(event, context):
     try:
@@ -31,17 +33,24 @@ def lambda_handler(event, context):
 
         user = payload.get("user")
         if not user:
-            return Response(status_code=400,body={"error":"user not found"}).to_dict()
+            return Response(status_code=400, body={"error": "user not found"}).to_dict()
+
         evaluator_id = user.get("evaluatorId")
         if not evaluator_id:
             return Response(status_code=401, body={"error": "No autorizado"}).to_dict()
 
         # Buscar los negocios asociados al evaluatorId
-        businesses = Business.objects(evaluatorId=evaluator_id).only("id", "analistaIds.id").select_related()
+        # Usamos solo "id" y "analistaIds" en la proyección para evitar el error.
+        businesses = Business.objects(evaluatorId=evaluator_id).only("id", "analistaIds").select_related()
 
-
-        # Serializar los datos
-        business_list = [{"id": str(b.id), "analistas": [{"id": str(a.id)} for a in b.analistaIds]} for b in businesses]
+        # Construir la lista de negocios
+        business_list = [
+            {
+                "id": str(b.id),
+                "analistas": [{"id": str(a)} for a in b.analistaIds]
+            }
+            for b in businesses
+        ]
 
         return Response(status_code=200, body=business_list).to_dict()
 

@@ -100,14 +100,14 @@ class DetailItem(EmbeddedDocument):
 
 
 class FinancialDatapoint(Document):
-    businessId = StringField(required=True)
+    businessId = ObjectIdField(required=True)
     value = FloatField(required=True)
     details = ListField(EmbeddedDocumentField(DetailItem))
-    accountId = StringField(required=True, unique=True)
+    accountId = ObjectIdField(required=True)
     account = ReferenceField('Account', required=True)
-    financialStatementId = StringField(required=True, unique=True)
+    financialStatementId = ObjectIdField(required=True)
     financialStatement = ReferenceField('FinancialStatement')
-    yearId = StringField(required=True, unique=True)
+    yearId = StringField(required=True)
     year = ReferenceField('Year', required=True)
     createdAt = DateTimeField(default=datetime.datetime.utcnow)
     updatedAt = DateTimeField(default=datetime.datetime.utcnow)
@@ -136,7 +136,7 @@ class YearDataPoint(EmbeddedDocument):
     meta = {'collection': 'YearDataPoint'}
 
 class FinancialStatement(Document):
-    businessId = StringField(required=True)
+    businessId = ObjectIdField(required=True)
     type = StringField()  # 'situacional', 'auditados', 'parciales'
     currency = StringField(default="PEN")  # 'PEN', 'USD', 'EUR'
     scaleType = StringField(default="THOUSANDS")  # 'millones', 'miles', 'millones'

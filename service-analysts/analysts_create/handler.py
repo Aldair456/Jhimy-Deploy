@@ -1,3 +1,11 @@
+
+import sys
+import os
+
+# Obtener la ruta del directorio padre
+sys.path.append(r"C:\Users\semin\OneDrive\Escritorio\MARCELO\jhimy\migracion\service-analysts")
+
+#...............
 import os
 import json
 import datetime
@@ -7,6 +15,8 @@ from utils.response import Response
 from utils.model import User,Evaluator
 from utils.serializable import serialize_document
 from bson import ObjectId
+
+#...................................
 # Clave secreta para JWT
 SECRET_KEY = os.environ.get("JWT_SECRET", "supersecret")
 
@@ -23,6 +33,7 @@ def handler_function(event, context):
     - dict: Respuesta HTTP con código y mensaje.
     """
     try:
+        print("Entro")
         # 1️⃣ Extraer y validar el token de la cabecera Authorization
         headers = event.get("headers", {})
         auth_header = headers.get("Authorization", "")
@@ -81,13 +92,20 @@ def handler_function(event, context):
             return Response(409, {"error": "El usuario ya existe"}).to_dict()
 
         # 5️⃣ Crear el usuario en la base de datos
+        #evaluator_instance = Evaluator.objects.get(id=evaluatorId)
         evaluator_instance = Evaluator.objects.get(id=ObjectId(evaluatorId))
+    
+        #evaluator_instance = Evaluator.objects.get(id=ObjectId(evaluatorId))
+
+        print(f"Tipo de evaluatorId: {type(evaluatorId)}, Valor: {evaluatorId}",flush=True)
+
+        #evaluator_instance = Evaluator.objects.get(id=ObjectId(evaluatorId))
         print(evaluator_instance)
         new_user = User(
             username=username,
             password=password,  # 🔴 IMPORTANTE: En producción, hashear la contraseña
             role="ANALYST",
-            evaluatorId=evaluator_instance,
+            evaluatorId=evaluator_instance.id,
             name=name,
             email=email,
             createdAt=datetime.datetime.utcnow(),
@@ -110,14 +128,14 @@ if __name__ == "__main__":
     # Simular headers con un token JWT para un usuario ADMIN
     # En este ejemplo, generamos un token para pruebas (valido por 30 días)
 
-    test_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjc5ZDA1MDhjNDM0ZDdjMmM5M2IzYTBkIiwidXNlcm5hbWUiOiJyYm9uaWZheiIsInJvbGUiOiJBRE1JTiIsImV2YWx1YXRvcklkIjoiRXZhbHVhdG9yIG9iamVjdCIsImVtYWlsIjoicm9kcmlnb0B2YWxlLnBlIn0sImV4cCI6MTc0NDAxMDYzMn0.hctVW2YJLwZJfbfEO0032UBTD7KIH1o6gMRoYvijXiE"
+    test_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjc5ZDA1MDhjNDM0ZDdjMmM5M2IzYTBkIiwidXNlcm5hbWUiOiJyYm9uaWZheiIsInJvbGUiOiJBRE1JTiIsImV2YWx1YXRvcklkIjoiNjc5ZDA0ZDJjNDM0ZDdjMmM5M2IzYTA5IiwiZW1haWwiOiJyb2RyaWdvQHZhbGUucGUifSwiZXhwIjoxNzQ0MDA3MjIxfQ.UqmXGkGzftOL8UIXH656gqvnLak43U-Okdh1HoMMxns"
     test_headers = {
         "Authorization": f"Bearer {test_token}"
     }
 
     # Simular un body de solicitud para crear un analista
     test_body = {
-        "username": "analystUser13",
+        "username": "Zedane",
         "password": "analystPassword",
         "name": "Analyst Name",
         "email": "analyst@example.com"

@@ -2,11 +2,21 @@ import json
 import os
 from mongoengine import connect
 from bson import ObjectId
+import sys
+sys.path.append(r"C:\Users\semin\OneDrive\Escritorio\MARCELO\jhimy\migracion\service-businesses")
+
 from utils.model import Business  # Asegúrate de importar el modelo correcto
 from utils.response import Response  # Importa la clase Response
 from utils.serializable import serialize_document  # Importa la función de serialización
 
-
+"""""
+1️ Se conecta a la base de datos MongoDB.
+2️ Extrae el businessId de la URL.
+3️ Busca el negocio en MongoDB.
+4️ Extrae el analystId del cuerpo de la solicitud.
+5️ Elimina al analista de la lista analistaIds.
+6️ Serializa y devuelve el negocio actualizado.
+"""
 def lambda_handler(event, context):
     # Conectar a la base de datos
     connect(db=os.environ['MY_DATABASE_NAME'], host=os.environ['DATABASE_URL'])
@@ -28,7 +38,7 @@ def lambda_handler(event, context):
         return Response(status_code=400, body={"error": "Falta el analystId"}).to_dict()
 
     # Remover el analista de la lista
-    if ObjectId(analyst_id) in [a.id for a in business.analistaIds]:
+    if ObjectId(analyst_id) in [a for a in business.analistaIds]:
         business.update(pull__analistaIds=ObjectId(analyst_id))
         business.reload()
 
@@ -47,6 +57,6 @@ if __name__ == "__main__":
     # Simulación de prueba local
     test_event = {
         "pathParameters": {"businessId": "67802e0a80547b162bf07dd0"},
-        "body": json.dumps({"analystId": "67cbed1bd74313ab7499648c"})
+        "body": json.dumps({"analystId": "678a9923f6a08c8217b3576b"})
     }
     print(lambda_handler(test_event, None))

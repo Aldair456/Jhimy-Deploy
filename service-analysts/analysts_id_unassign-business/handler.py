@@ -1,3 +1,10 @@
+#
+import os
+import sys
+
+sys.path.append(r"C:\Users\semin\OneDrive\Escritorio\MARCELO\jhimy\migracion\service-analysts")
+
+#-------
 import os
 import json
 from bson import ObjectId
@@ -76,8 +83,9 @@ def handler_function(event, context):
 if __name__ == "__main__":
     test_event = {
         "pathParameters": {"id": "67cbed1bd74313ab7499648c"},
-        "body": json.dumps({"businessId": "67802e0a80547b162bf07dd0"})
+        "body": json.dumps({"businessId": "6786e21b6106b8b2141497fd"})
     }
     response = handler_function(test_event, {})
     print("Respuesta de la función Lambda:")
     print(response)
+# checking 

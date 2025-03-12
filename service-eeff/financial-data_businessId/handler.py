@@ -1,9 +1,17 @@
 import json
 from mongoengine import connect
 from bson import ObjectId
+import sys
+sys.path.append(r"C:\Users\semin\OneDrive\Escritorio\MARCELO\jhimy\migracion\service-eeff")
 from utils.model import FinancialDatapoint, Account  # Modelos en MongoEngine
 from utils.response import Response  # Clase Response para respuestas formateadas
 from utils.serializable import serialize_document
+
+
+""""
+businessId se pasa en la URL de la solicitud. La función responde con los datos financieros de ese negocio,
+ siempre y cuando la autenticación sea correcta y el businessId sea válido.
+"""
 def lambda_handler(event, context):
     try:
         # Verificar autorización con el Bearer Token

@@ -1,17 +1,27 @@
+
+# RETORNAR  ALL ANALISTAS  con  el { evaluatorId: ObjectId("679d04d2c434d7c2c93b3a09") } que le das check
+
+import sys
+import os
+
+
 import os
 import jwt  # Asegúrate de tener instalado PyJWT
+
+# nota elminar la primera linea en caso de que se pase a lambda  :D
+sys.path.append(r"C:\Users\semin\OneDrive\Escritorio\MARCELO\jhimy\migracion\service-analysts")
+
 from utils.response import Response
 from utils.serializable import serialize_document
 from utils.model import User
-from mongoengine import connect
+#from M.mongoengine import connect
+
+
 
 # Configuración de variables de entorno (en producción se definen en el entorno Lambda)
-DATABASE_URL = os.environ.get("DATABASE_URL")
 JWT_SECRET = os.environ.get("JWT_SECRET", "supersecret")
-MY_DATABASE_NAME = os.environ.get("MY_DATABASE_NAME", "vera-app")
 
 # Conexión a MongoDB usando mongoengine
-connect(MY_DATABASE_NAME, host=DATABASE_URL)
 
 
 def handler_function(event, context):
@@ -105,8 +115,6 @@ if __name__ == "__main__":
         "Authorization": f"Bearer {test_token}"
     }
 
-    # Simular un evento para la función Lambda
-    # En este caso, solo necesitamos headers ya que es una operación GET sin body
     event_test = {
         "headers": test_headers
     }

@@ -1,6 +1,8 @@
 import json
 from bson import ObjectId
 from datetime import datetime
+import sys
+sys.path.append(r"C:\Users\semin\OneDrive\Escritorio\MARCELO\jhimy\migracion\service-financial-statements")
 from utils.model import FinancialStatement, FinancialDatapoint  # Asegúrate de importar los modelos correctos
 from utils.response import Response  # Importa la clase Response
 from utils.serializable import serialize_document
@@ -77,7 +79,7 @@ def lambda_handler(event, context):
 if __name__ == "__main__":
     test_event = {
         "headers": {"Authorization": "Bearer test_token"},
-        "pathParameters": {"id": "67c1ebe6f2c06183ea1f7743"},
+        "pathParameters": {"id": "67cf61d6b66c8bdbc2993c4b"},
         "body": json.dumps({
             "businessId": "12345",
             "currency": "USD",

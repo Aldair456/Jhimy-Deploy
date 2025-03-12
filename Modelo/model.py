@@ -46,8 +46,6 @@ class User(Document):
     role = StringField(choices=["ADMIN", "ANALYST"], required=True)
     evaluatorId = ObjectIdField(required=True)
     evaluator = ReferenceField("Evaluator")
-    assignedBusinessIds = ListField(ObjectIdField())
-    assignedBusiness = ListField(ReferenceField("Business"))
     name = StringField()
     email = StringField()
     emailVerified = BooleanField(default=False)

@@ -1,12 +1,17 @@
 import os
+import sys
+
+# Obtener la ruta del directorio padre
+sys.path.append(r"C:\Users\semin\OneDrive\Escritorio\MARCELO\jhimy\migracion\service-analysts")
+
+#------------
+import os
 import json
 from bson import ObjectId
 from mongoengine import connect, NotUniqueError, get_db
 from utils.response import Response
 from utils.serializable import serialize_document
 from utils.model import User, Business
-
-
 
 def handler_function(event, context):
     """
@@ -52,24 +57,19 @@ def handler_function(event, context):
                 analyst = User.objects(id=analyst_id).first()
                 business = Business.objects(id=business_id).first()
 
-
                 if not analyst:
                     return Response(status_code=404, body={"error": "Analista no encontrado"}).to_dict()
 
                 if not business:
                     return Response(status_code=404, body={"error": "Negocio no encontrado"}).to_dict()
 
-                # Agregar businessId a assignedBusinessIds del analista
-                print(analyst.assignedBusinessIds)
-                business_id = Business.objects.get(id=business_id)
-
-                if business not in analyst.assignedBusinessIds:
-                    analyst.assignedBusinessIds.append(business_id)
+                # Agregar business.id a assignedBusinessIds del analista si aún no está asignado
+                if business.id not in analyst.assignedBusinessIds:
+                    analyst.assignedBusinessIds.append(business.id)
                     analyst.save(session=session)
 
-                # Agregar analyst_id a analistaIds del negocio
-
-                if analyst not in business.analistaIds:
+                # Agregar analyst_id a analistaIds del negocio si aún no está asignado
+                if analyst_id not in business.analistaIds:
                     business.analistaIds.append(analyst_id)
                     business.save(session=session)
 
@@ -87,8 +87,8 @@ def handler_function(event, context):
 # Bloque opcional para pruebas locales
 if __name__ == "__main__":
     test_event = {
-        "pathParameters": {"id": "67cbed1bd74313ab7499648c"},
-        "body": json.dumps({"businessId": "67802e0a80547b162bf07dd0"})
+        "pathParameters": {"id": "67770eace3a1abad30f4cd03"},  # Extrae el id del analista
+        "body": json.dumps({"businessId": "6786e21b6106b8b2141497fd"})
     }
     response = handler_function(test_event, {})
     print("Respuesta de la función Lambda:")

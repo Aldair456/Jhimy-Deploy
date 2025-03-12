@@ -1,3 +1,10 @@
+#
+import os
+import sys
+
+sys.path.append(r"C:\Users\semin\OneDrive\Escritorio\MARCELO\jhimy\migracion\service-analysts")
+
+#...................
 import os
 import json
 from mongoengine import connect, DoesNotExist, NotUniqueError
@@ -51,7 +58,7 @@ def handler_function(event, context):
 
 if __name__ == "__main__":
     event = {
-        "pathParameters": {"id": "67cbef9c0a92ce0e68e9dfb9"},
+        "pathParameters": {"id": "67cbed1bd74313ab7499648c"},
         "body": json.dumps({"name": "Juan Pablo", "email": "juanpablo@utec.edu.pe", "username": "juanp1"})
     }
     print(handler_function(event=event, context=None))

@@ -2,13 +2,19 @@ import json
 import os
 import jwt  # Importar PyJWT
 from mongoengine import connect
+import sys
+sys.path.append(r"C:\Users\semin\OneDrive\Escritorio\MARCELO\jhimy\migracion\service-businesses")
 from utils.model import FinancialStatement, FinancialDatapoint
 from utils.response import Response
 from bson import ObjectId
 
 SECRET_KEY = os.environ.get("JWT_SECRET_KEY", "supersecret")  # Se recomienda usar variables de entorno
 
+""""
+Este código es una AWS Lambda function en Python que permite eliminar un estado financiero de MongoDB, verificando la autenticación con un JWT (JSON Web Token).
 
+
+"""
 def lambda_handler(event, context):
     try:
         # Conectar a la base de datos
@@ -54,7 +60,7 @@ def lambda_handler(event, context):
 if __name__ == "__main__":
     # Simulación de prueba local
     test_event = {
-        "pathParameters": {"id": "67cc57a238d640b67c1b9d54"},
+        "pathParameters": {"id": "67cf61d6b66c8bdbc2993c4b"},
         "headers": {"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjc5ZDA1MDhjNDM0ZDdjMmM5M2IzYTBkIiwidXNlcm5hbWUiOiJyYm9uaWZheiIsInJvbGUiOiJBRE1JTiIsImV2YWx1YXRvcklkIjoiNjc5ZDA0ZDJjNDM0ZDdjMmM5M2IzYTA5IiwiZW1haWwiOiJyb2RyaWdvQHZhbGUucGUifSwiZXhwIjoxNzQ0MDQyOTk0fQ.6PyKgQOIRMoPrBVmbwSGo_8D56al2HesA3NXjg-_J-I"}
     }
     print(lambda_handler(test_event, None))

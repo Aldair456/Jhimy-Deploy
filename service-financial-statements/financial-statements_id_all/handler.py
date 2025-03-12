@@ -1,11 +1,20 @@
 import json
 import os
 from bson import ObjectId
+import sys
+sys.path.append(r"C:\Users\semin\OneDrive\Escritorio\MARCELO\jhimy\migracion\service-financial-statements")
 from utils.model import FinancialStatement  # Asegúrate de importar el modelo correcto
 from utils.response import Response  # Importa la clase Response
 from utils.serializable import serialize_document
 
+"""""
 
+ Autenticación con un Bearer Token
+Extrae el id del negocio desde la URL
+ Busca todos los estados financieros asociados al negocio en MongoDB
+ Convierte los estados financieros en JSON
+ Maneja errores con respuestas estructuradas
+"""
 def lambda_handler(event, context):
     try:
         # Verificar autorización con el Bearer Token
@@ -30,11 +39,11 @@ def lambda_handler(event, context):
 
     except Exception as e:
         return Response(status_code=500, body={"error": "Error interno", "details": str(e)}).to_dict()
-
+# correguir solo el guradado en donde debe de guardarse porque lo saca del staement
 
 if __name__ == "__main__":
     test_event = {
         "headers": {"Authorization": "Bearer test_token"},
-        "pathParameters": {"id": "67c774ce1e7084d508ebd0fb"}
+        "pathParameters": {"id": "679d086b1d4641c193691300"}
     }
     print(lambda_handler(test_event, None))

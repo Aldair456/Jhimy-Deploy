@@ -1,9 +1,13 @@
 import json
 from mongoengine import connect
 from bson import ObjectId
+import sys
+sys.path.append(r"C:\Users\semin\OneDrive\Escritorio\MARCELO\jhimy\migracion\service-eeff")
 from utils.model import FinancialDatapoint  # Importar modelo de MongoEngine
 from utils.response import Response  # Clase Response para respuestas formateadas
-
+""""
+actualizar datos financieros de un negocio basado en un businessId. Te explico paso a paso qué hace el código:"
+"""
 #falta probar
 
 def lambda_handler(event, context):
@@ -27,11 +31,13 @@ def lambda_handler(event, context):
             return Response(status_code=400, body={"error": "Valor faltante"}).to_dict()
 
         # Buscar y actualizar el dato financiero
-        financial_data = FinancialDatapoint.objects(id=ObjectId(business_id)).first()
+        financial_data = FinancialDatapoint.objects(businessId=ObjectId(business_id)).first()
         if not financial_data:
             return Response(status_code=404, body={"error": "Dato financiero no encontrado"}).to_dict()
 
-        #financial_data.update(value=value)
+        financial_data.update(value=value)
+        print(financial_data)
+        financial_data.save()
 
         return Response(status_code=200, body={"message": "Datos actualizados correctamente"}).to_dict()
 
@@ -43,7 +49,7 @@ if __name__ == "__main__":
     # Simulación de prueba local
     test_event = {
         "headers": {"Authorization": "Bearer test_token"},
-        "pathParameters": {"businessId": "67c1ebe6f2c06183ea1f7743"},
-        "body": json.dumps({"value": 5000})
+        "pathParameters": {"businessId": "67802e0a80547b162bf07dd0"},
+        "body": json.dumps({"value": 9010})
     }
     print(lambda_handler(test_event, None))

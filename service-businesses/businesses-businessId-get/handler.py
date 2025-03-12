@@ -1,6 +1,9 @@
 import os
 import json
 from mongoengine import connect, disconnect
+import sys
+sys.path.append(r"C:\Users\semin\OneDrive\Escritorio\MARCELO\jhimy\migracion\service-businesses")
+
 from utils.response import Response
 from utils.model import Business  # Importa el modelo ORM
 from utils.serializable import serialize_document
@@ -46,7 +49,7 @@ def handler(event, context):
 if __name__ == "__main__":
     event = {
         "pathParameters": {
-            "businessId": "67802e0a80547b162bf07dd0"
+            "businessId": "6786e21b6106b8b2141497fd"
         }
     }
     print(handler(event=event, context={}))

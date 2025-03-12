@@ -1,51 +1,147 @@
+import logging
+import os
 import json
-from mongoengine import connect
-from utils.model import FinancialDatapoint  # Modelo en MongoEngine
-from utils.response import Response  # Clase Response para formatear respuestas
+import datetime
+from pymongo import MongoClient
 
-##falta probar
+# Configurar el logger
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+import sys
+sys.path.append(r"C:\Users\semin\OneDrive\Escritorio\MARCELO\jhimy\migracion\service-eeff")
+
+from utils.model import FinancialStatement, FinancialDatapoint,DetailItem  # Asegúrate de importar los modelos correctos
+from utils.response import Response  # Importa la clase Response
+# Configurar conexión a MongoDB utilizando las variables de entorno
+MONGO_URI = os.getenv("MONGO_URI")
+DATABASE_NAME = os.getenv("MY_DATABASE_NAME", "default_db")  # Usa MY_DATABASE_NAME
+
+if not MONGO_URI:
+    raise Exception("La variable de entorno MONGO_URI no está definida.")
+
+if not DATABASE_NAME:
+    raise Exception("La variable de entorno MY_DATABASE_NAME no está definida.")
+
+client = MongoClient(MONGO_URI)
+db = client[DATABASE_NAME]  # Se especifica la base de datos
+
+# Función para obtener datos de MongoDB
+def obtener_datos_mongodb():
+    collection = db["Account"]
+    return {
+        doc["name"]: {
+            "id": str(doc["_id"]),
+            "displayName": doc["displayName"],
+            "statement": doc["statement"],
+            "tags": doc["tags"],
+            "valueType": doc["valueType"],
+            "priority": doc["priority"]
+        }
+        for doc in collection.find()
+    }
+
+# Obtener mapeo de cuentas
+ACCOUNT_MAPPING = obtener_datos_mongodb()
+
 def lambda_handler(event, context):
     try:
-        # Verificar autorización con el Bearer Token
-        headers = event.get("headers", {})
-        auth_header = headers.get("Authorization", "")
-        if not auth_header.startswith("Bearer "):
-            return Response(status_code=401, body={"error": "No autorizado"}).to_dict()
+        # Se espera que el evento contenga "statement_id" y "output" con la estructura especificada
+        financial_data = {
+            "financialStatementId": event["statement_id"],
+            "output": event["output"]
+        }
 
-        # Leer el cuerpo de la solicitud
-        body = json.loads(event.get("body", "{}"))
-        business_id = body.get("businessId")
-        data = body.get("data", [])
+        # Insertar FinancialDatapoints
+        datapoints = []
+        for item in financial_data["output"]:
+            account_info = ACCOUNT_MAPPING.get(item["name"])
+            if not account_info:
+                logger.warning(f"⚠ Advertencia: No se encontró ID para '{item['name']}' en MongoDB.")
+                continue
 
-        if not business_id or not data:
-            return Response(status_code=400, body={"error": "Faltan datos requeridos"}).to_dict()
-
-        # Insertar los datos en la base de datos
-        created_data = []
-        for item in data:
-            new_datapoint = FinancialDatapoint(
-                **item,  # Agrega los datos del objeto
-                businessId=business_id  # Asocia el businessId
+            datapoint = FinancialDatapoint(
+                value=item["value"],
+                details=[DetailItem(name=d["name"], value=d["value"]) for d in item["details"]],
+                accountId=account_info["id"],
+                financialStatementId=financial_data["financialStatementId"],
+                year=int(item["year"]),
+                createdAt=datetime.datetime.utcnow(),
+                updatedAt=datetime.datetime.utcnow()
             )
-            new_datapoint.save()
-            created_data.append(new_datapoint.to_mongo().to_dict())
+            datapoint.save()
+            datapoints.append(datapoint)
 
-        return Response(status_code=201, body=created_data).to_dict()
+        if not datapoints:
+            return {
+                "statusCode": 500,
+                "body": json.dumps({"message": "No se insertaron FinancialDatapoints."})
+            }
+
+        try:
+            statement_id = financial_data["financialStatementId"]
+            resultado = FinancialStatement.objects(id=statement_id).update_one(
+                set__status="COMPLETE",
+                set__updatedAt=datetime.datetime.utcnow()
+            )
+
+            if not resultado:
+                logger.warning(f"⚠️ No se encontró el FinancialStatement con ID {statement_id}.")
+                return {
+                    "statusCode": 404,
+                    "body": json.dumps({"error": f"No se encontró el FinancialStatement con ID {statement_id}."})
+                }
+            logger.info(f"✅ FinancialStatement con ID {statement_id} actualizado a 'COMPLETE'.")
+
+        except Exception as e:
+            logger.error(f"❌ Error al actualizar el FinancialStatement: {e}", exc_info=True)
+            return {
+                "statusCode": 500,
+                "body": json.dumps({"error": "Error al actualizar el estado del FinancialStatement."})
+            }
+
+        return {"statusCode": 200, "body": json.dumps({"message": "FinancialDatapoints insertados correctamente."})}
 
     except Exception as e:
-        return Response(status_code=500, body={"error": "Error interno del servidor", "details": str(e)}).to_dict()
-
+        return {"statusCode": 500, "body": json.dumps({"message": f"Error: {str(e)}"})}
 
 if __name__ == "__main__":
-    # Simulación de prueba local
-    test_event = {
-        "headers": {"Authorization": "Bearer test_token"},
-        "body": json.dumps({
-            "businessId": "67c1ebe6f2c06183ea1f7743",
-            "data": [
-                {"accountId": "6786a3467c262b8d3c1892c0", "amount": 1000, "category": "Ventas"},
-                {"accountId": "6786a3467c262b8d3c1892c1", "amount": 500, "category": "Gastos"}
-            ]
-        })
+    # Ejemplo de JSON recibido
+    event = {
+        "statement_id": "67cf64e6d7242f78b1b5c316",
+        "output": [
+            {
+                "name": "PERIOD_RESULTS",
+                "value": 397370,
+                "year": 2022,
+                "details": [
+                    {
+                        "name": "Resultado del ejercicio",
+                        "value": 397370
+                    }
+                ]
+            },
+            {
+                "name": "ACCUMULATED_RESULTS",
+                "value": -315618,
+                "year": 2022,
+                "details": [
+                    {
+                        "name": "Resultados acumulados",
+                        "value": -315618
+                    }
+                ]
+            },
+            {
+                "name": "CASH",
+                "value": 67564,
+                "year": 2022,
+                "details": [
+                    {
+                        "name": "Efectivo y equivalentes de efectivo",
+                        "value": 67564
+                    }
+                ]
+            },
+        ]
     }
-    print(lambda_handler(test_event, None))
+    print(lambda_handler(event=event, context=None))
